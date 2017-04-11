@@ -1,0 +1,112 @@
+[
+    {
+        "name": "catfan/medoo",
+        "version": "v1.2.1",
+        "version_normalized": "1.2.1.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/catfan/Medoo.git",
+            "reference": "b5a788c90c44db0f978512c890cb6962af4685e8"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/catfan/Medoo/zipball/b5a788c90c44db0f978512c890cb6962af4685e8",
+            "reference": "b5a788c90c44db0f978512c890cb6962af4685e8",
+            "shasum": ""
+        },
+        "require": {
+            "ext-pdo": "*",
+            "php": ">=5.4"
+        },
+        "suggest": {
+            "ext-pdo_dblib": "For MSSQL or Sybase databases on Linux/UNIX platform",
+            "ext-pdo_mysql": "For MySQL or MariaDB databases",
+            "ext-pdo_oci": "For Oracle databases",
+            "ext-pdo_pqsql": "For PostgreSQL databases",
+            "ext-pdo_sqlite": "For SQLite databases",
+            "ext-pdo_sqlsrv": "For MSSQL databases on Windows platform"
+        },
+        "time": "2017-02-17T16:05:35+00:00",
+        "type": "framework",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Medoo\\": "/src"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Angel Lai",
+                "email": "angel@catfan.me"
+            }
+        ],
+        "description": "The Lightest PHP database framework to accelerate development",
+        "homepage": "http://medoo.in",
+        "keywords": [
+            "database",
+            "lightweight",
+            "mssql",
+            "mysql",
+            "php framework",
+            "sql",
+            "sqlite"
+        ]
+    },
+    {
+        "name": "twbs/bootstrap",
+        "version": "4.0.0-alpha.6",
+        "version_normalized": "4.0.0.0-alpha6",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/twbs/bootstrap.git",
+            "reference": "65ffb1c3b6e94440812a2e228cb8e8be512652ec"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/twbs/bootstrap/zipball/65ffb1c3b6e94440812a2e228cb8e8be512652ec",
+            "reference": "65ffb1c3b6e94440812a2e228cb8e8be512652ec",
+            "shasum": ""
+        },
+        "replace": {
+            "twitter/bootstrap": "self.version"
+        },
+        "time": "2017-01-06T16:41:52+00:00",
+        "type": "library",
+        "extra": {
+            "branch-alias": {
+                "dev-master": "3.3.x-dev"
+            }
+        },
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Jacob Thornton",
+                "email": "jacobthornton@gmail.com"
+            },
+            {
+                "name": "Mark Otto",
+                "email": "markdotto@gmail.com"
+            }
+        ],
+        "description": "The most popular front-end framework for developing responsive, mobile first projects on the web.",
+        "homepage": "https://getbootstrap.com",
+        "keywords": [
+            "JS",
+            "css",
+            "framework",
+            "front-end",
+            "mobile-first",
+            "responsive",
+            "sass",
+            "web"
+        ]
+    }
+]

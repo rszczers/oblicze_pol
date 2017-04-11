@@ -1,0 +1,14 @@
+{
+    "name": "vendor/oblicze-poll",
+    "description": "Description of project oblicze_poll.",
+    "authors": [
+        {
+            "name": "rszczers",
+            "email": "your@email.here"
+        }
+    ],
+    "require": {
+        "catfan/medoo": "v1.2.1",
+        "twbs/bootstrap": "4.0.0-alpha.6"
+    }
+}
