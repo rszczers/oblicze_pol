@@ -17,4 +17,34 @@ class Lecture {
         $this->endTime = $endTime;
         $this->place = $place;
     }
+    
+    function getTitle() {
+        return $this->title;
+    }
+
+    function getAbstract() {
+        return $this->abstract;
+    }
+
+    function getAuthors() {
+        return $this->authors;
+    }
+
+    function getDate() {
+        return $this->date;
+    }
+
+    function getStartTime() {
+        return $this->startTime;
+    }
+
+    function getEndTime() {
+        return $this->endTime;
+    }
+
+    function getPlace() {
+        return $this->place;
+    }
+
+
 }
