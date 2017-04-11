@@ -1,34 +1,5 @@
 <?php
-include 'app/config.php';
-require 'app/vendor/autoload.php';
-use Medoo\Medoo;
-
-$database = new Medoo([
-	// required
-	'database_type' => DB_TYPE,
-	'database_name' => DB_NAME,
-	'server' => DB_HOST,
-	'username' => DB_USER,
-	'password' => DB_PASSWORD,
-	'charset' => DB_CHARSET]
-    );
-
-$request = (isset($_GET['request']) ? explode('/', $_GET['request']) : null);
-$userCode = $request[0];
-
-$userData = $database->select("Users", [
-    "fname",
-    "code",
-    "didVote",
-    "email"], [
-    "code" => $userCode]);
-
-if (count($userData) > 0) {
-    echo "dziala";
-} else {
-    echo "nie dziala";
-}
-
+require_once 'app/init.php';
 ?>
 
 <!DOCTYPE html>

@@ -1,5 +1,5 @@
 <?php
-class Lectures {
+class Lecture {
     private $title;
     private $abstract;
     private $authors;
