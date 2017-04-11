@@ -6,13 +6,16 @@ class Poster {
     private $date;
     private $startTime;
     private $endTime;
+    private $place;
 
-function __construct($title, $abstract, $authors, $date, $start, $end) {
+function __construct($title, $abstract, $authors, $date, $start, $end, $place) {
 	$this->title = $title;
 	$this->abstract = $abstract;
         $this->authors = $authors;
         $this->startTime = $start;
         $this->endTime = $end;
         $this->date = $date;
+        $this->place = $place;
     }
+    
 }
