@@ -1,6 +1,6 @@
 <?php
 
-class Author {
+class Author implements \JsonSerializable {
     private $fname;
     private $sname;
     private $email;
@@ -18,4 +18,10 @@ class Author {
     public function getEmail() {
         return $this->email;
     }
+
+    public function jsonSerialize() {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
+
 }

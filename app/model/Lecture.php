@@ -1,5 +1,5 @@
 <?php
-class Lecture {
+class Lecture implements \JsonSerializable {
     private $title;
     private $abstract;
     private $authors;
@@ -46,5 +46,9 @@ class Lecture {
         return $this->place;
     }
 
+    public function jsonSerialize() {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 
 }

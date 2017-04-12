@@ -1,5 +1,5 @@
 <?php
-class Poster {
+class Poster implements \JsonSerializable {
     private $title;
     private $abstract;
     private $authors;
@@ -17,5 +17,9 @@ function __construct($title, $abstract, $authors, $date, $start, $end, $place) {
         $this->date = $date;
         $this->place = $place;
     }
-    
+
+    public function jsonSerialize() {
+        $vars = get_object_vars($this);
+        return $vars;
+    }
 }

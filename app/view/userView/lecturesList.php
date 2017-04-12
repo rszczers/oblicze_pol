@@ -8,8 +8,7 @@ class lecturesList {
     
     public function show() {
         $output =
-        '<div class="container">
-          <table class="table table-bordered">
+          '<table class="table table-bordered">
             <thead>
               <tr>
                 <th>#</th>
@@ -40,7 +39,7 @@ class lecturesList {
             $output = $output . '</td></tr>';
             $i++;
         }
-        $output = $output . '</tbody></table></div>';
+        $output = $output . '</tbody></table>';
         echo $output;
     }
 }

@@ -4,9 +4,10 @@ require 'Medoo.php';
 require_once 'model/Author.php';
 require_once 'model/Lecture.php';
 require_once 'model/Poster.php';
-require_once 'model/Timebreak.php';
+require_once 'model/Breaktime.php';
 
 require_once 'controller/userViewController.php';
+require_once 'controller/mobileAppController.php';
 require_once 'view/userView/lecturesList.php';
 
 use Medoo\Medoo;
@@ -30,13 +31,44 @@ $userData = $database->select("Users", [
     "didVote",
     "email"], [
     "code" => $userCode]);
-//If so, then construct poll page
+//If so, then construct page
 if (count($userData) > 0) {
-    $uvc = new userViewController($database);
-    $lectureList = new lecturesList($uvc->getLectures());
-    ob_start(); 
-    require("view/userView/userViewLayout.php"); 
-    ob_end_flush();
+    $userRequest = $request[1];
+    $rawDataRequest = $request[2];
+    //check if its mobile app json request
+    if ($userRequest == JSON_REQUEST) {
+        $mac = new mobileAppController($database);
+        if ($rawDataRequest == JSON_REQUEST_LECTURES) {
+            $lectures = $mac->getLectures();
+            $json = array();
+            foreach ($lectures as $lecture) {
+                array_push($json, $lecture->jsonSerialize());            
+            }
+            print_r(json_encode($json, JSON_PRETTY_PRINT));
+        }
+        if ($rawDataRequest == JSON_REQUEST_POSTERS) {
+            $posters = $mac->getPosters();
+            $json = array();
+            foreach ($posters as $poster) {
+                array_push($json, $poster->jsonSerialize());            
+            }
+            print_r(json_encode($json, JSON_PRETTY_PRINT));
+        }
+        if ($rawDataRequest == JSON_REQUEST_BREAKS) {
+            $breaks = $mac->getBreaks();
+            $json = array();
+            foreach ($breaks as $break) {
+                array_push($json, $break->jsonSerialize());
+            }
+            print_r(json_encode($json, JSON_PRETTY_PRINT));
+        }
+    } else {
+        $uvc = new userViewController($database);
+        $lectureList = new lecturesList($uvc->getLectures());
+        ob_start(); 
+        require("view/userView/userViewLayout.php"); 
+        ob_end_flush();
+    }
 } else { //else, print 'check your code' error
     echo "Error";
 }

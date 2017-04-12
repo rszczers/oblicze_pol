@@ -1,6 +1,6 @@
 <?php
 class userViewController {
-    private $database;
+    protected $database;
     private $lecturesData;
     private $postersData;
     private $relatedAuthors;
@@ -10,7 +10,8 @@ class userViewController {
     
     function __construct($databaseHandler) {
         $this->lectureAuthors = array();
-        $this->posterAuthors = array();
+        $this->posterAuthors = array();  
+        
         $this->database = $databaseHandler;
         $this->lecturesData = $this->setLecturesData();
         $this->postersData = $this->setPostersData();
