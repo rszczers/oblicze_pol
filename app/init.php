@@ -33,15 +33,10 @@ $userData = $database->select("Users", [
 //If so, then construct poll page
 if (count($userData) > 0) {
     $uvc = new userViewController($database);
-    $test = $uvc->getLectures();
-    $list = new lecturesList($test);
+    $lectureList = new lecturesList($uvc->getLectures());
     ob_start(); 
     require("view/userView/userViewLayout.php"); 
     ob_end_flush();
-//    $list = new lecturesList($test);
-//    echo "<pre>";
-//    var_dump($test);
-//    echo "</pre>";
 } else { //else, print 'check your code' error
     echo "Error";
 }

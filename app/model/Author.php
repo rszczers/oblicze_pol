@@ -10,4 +10,12 @@ class Author {
         $this->sname = $sname;
         $this->email = $email;
     }
+    
+    public function getFullName() {
+        return $this->fname . ' ' . $this->sname;
+    }
+    
+    public function getEmail() {
+        return $this->email;
+    }
 }

@@ -5,7 +5,12 @@ class userViewController {
     private $postersData;
     private $relatedAuthors;
     
+    private $lectureAuthors;
+    private $posterAuthors;
+    
     function __construct($databaseHandler) {
+        $this->lectureAuthors = array();
+        $this->posterAuthors = array();
         $this->database = $databaseHandler;
         $this->lecturesData = $this->setLecturesData();
         $this->postersData = $this->setPostersData();
@@ -40,18 +45,18 @@ class userViewController {
             $newAuthor = new Author(
                     $author["fname"], $author["sname"], $author["email"]);
 
-            if (!is_null($author["lecture_id"])) {
-                if (array_key_exists($author["lecture_id"], $lectureAuthors)) {
-                    array_push($lectureAuthors[$author["lecture_id"]], $newAuthor);
+            if (!is_null($author["lecture_id"])) { // author has lecture
+                if (array_key_exists($author["lecture_id"], $this->lectureAuthors)) {
+                    array_push($this->lectureAuthors[$author["lecture_id"]], $newAuthor);
                 } else {
-                    $lectureAuthors[$author["lecture_id"]] = array($newAuthor);
+                    $this->lectureAuthors[$author["lecture_id"]] = array($newAuthor);
                 }
             }
             if (!is_null($author["poster_id"])) {
-                if (array_key_exists($author["poster_id"], $posterAuthors)) {
-                    array_push($posterAuthors[$author["poster_id"]], $newAuthor);
+                if (array_key_exists($author["poster_id"], $this->posterAuthors)) {
+                    array_push($this->posterAuthors[$author["poster_id"]], $newAuthor);
                 } else {
-                    $posterAuthors[$author["poster_id"]] = array($newAuthor);
+                    $this->posterAuthors[$author["poster_id"]] = array($newAuthor);
                 }
             }
         };
@@ -75,7 +80,7 @@ class userViewController {
             $lectures[$lecture["lecture_id"]] = new Lecture(
                 $lecture["title"],
                 $lecture["abstract"],
-                $lectureAuthors[$lecture["lecture_id"]],
+                $this->lectureAuthors[$lecture["lecture_id"]],
                 $lecture["date"],
                 $lecture["start"],
                 $lecture["end"],
@@ -91,7 +96,7 @@ class userViewController {
             $posters[$poster["poster_id"]] = new Poster(
                 $poster["title"],
                 $poster["abstract"],
-                $posterAuthors[$poster["poster_id"]],
+                $this->posterAuthors[$poster["poster_id"]],
                 $poster["date"],
                 $poster["start"],
                 $poster["end"],
