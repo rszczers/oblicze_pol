@@ -1,5 +1,6 @@
 <?php
 class Poster implements \JsonSerializable {
+    private $id;
     private $title;
     private $abstract;
     private $authors;

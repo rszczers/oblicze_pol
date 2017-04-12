@@ -1,5 +1,6 @@
 <?php
 class Breaktime implements \JsonSerializable {
+    private $id;
     private $title;
     private $date;
     private $startTime;

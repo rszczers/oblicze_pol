@@ -1,6 +1,7 @@
 <?php
 
 class Author implements \JsonSerializable {
+    private $id;
     private $fname;
     private $sname;
     private $email;

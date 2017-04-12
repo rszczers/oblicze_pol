@@ -26,7 +26,20 @@ class lecturesList {
                '<tr>
                 <td rowspan=2>' . $i . '</td>
                 <td>' . $title . '</td>
-                <td rowspan=2> Miejsce na ocenę </td>
+                <td rowspan=2 style="text-align:center">';
+            $output = $output .
+                    
+'<div class="radio">
+  <label><input type="radio" name="optradio">1</label>
+</div>
+<div class="radio">
+  <label><input type="radio" name="optradio">2</label>
+</div>
+<div class="radio disabled">
+  <label><input type="radio" name="optradio">3</label>
+</div>';
+                                    
+            $output = $output . '</td>
                 </tr><tr><td>';
             if (count($authors) > 1) {
                 foreach ($authors as $author) {
