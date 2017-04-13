@@ -32,10 +32,13 @@ $userData = $database->select("Users", [
     "isAdmin",
     "email"], [
     "code" => $userCode]);
+
 //If so, then construct page
 if (count($userData) > 0) {
-    $userRequest = $request[1];
+    $userRequest = $request[1];    
     $rawDataRequest = $request[2];
+    $isAdmin = $userData[0]["isAdmin"];
+    
     //check if its mobile app json request
     if ($userRequest == JSON_REQUEST) {
         $mac = new mobileAppController($database);
@@ -64,11 +67,11 @@ if (count($userData) > 0) {
             print_r(json_encode($json, JSON_PRETTY_PRINT));
         }
     } else if ($userRequest == ADMIN_PANEL_REQUESTCODE &&
-            $userData["isAdmin"] == 1) {
+            $isAdmin) {
         ob_start(); 
         require("view/adminPanel/adminViewLayout.php"); 
         ob_end_flush();
-    } else { 
+    } else if (is_null($userRequest)) { 
         $uvc = new userViewController($database);
         $lectureList = new lecturesList($uvc->getLectures());
         ob_start(); 

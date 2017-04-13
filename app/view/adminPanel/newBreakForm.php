@@ -6,8 +6,8 @@
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="newBreakTitle">Tytuł</label>  
-  <div class="col-md-4">
+  <label class="col-md-6 control-label" for="newBreakTitle">Tytuł</label>  
+  <div class="col-md-6">
   <input id="newBreakTitle" name="newBreakTitle" placeholder="tytuł przerwy" class="form-control input-md" type="text">
   <span class="help-block">Przykład: przerwa kawowa</span>  
   </div>
@@ -15,8 +15,8 @@
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="newBreakTime">Termin</label>
-  <div class="col-md-4">
+  <label class="col-md-6 control-label" for="newBreakTime">Termin</label>
+  <div class="col-md-6">
     <select id="newBreakTime" name="newBreakTime" class="form-control">
       <option value="1">Option one</option>
       <option value="2">Option two</option>
@@ -26,8 +26,8 @@
 
 <!-- Button -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="newBreakButton"></label>
-  <div class="col-md-4">
+  <label class="col-md-6 control-label" for="newBreakButton"></label>
+  <div class="col-md-6">
     <button id="newBreakButton" name="newBreakButton" class="btn btn-primary">Dodaj</button>
   </div>
 </div>
