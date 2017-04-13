@@ -2,10 +2,90 @@
 class adminViewController {
     private $database;
     
-    
-    
-    private function generateCode($howMany) {
+    public function addPoster($title, $abstract, $schedule_id, $place, $auhors_id, $tags) {        
+        $this->database->insert("Posters", [
+            "title" => $title,
+            "abstract" => $abstract,
+            "schedule" => $schedule_id,
+            "place" => $place
+        ]);
         
+        //update Authors table with recent data
+        $newPosterID = $this->database->id();
+        foreach ($authors_id as $id) {
+            $this->database->update("Authors", [
+                "poster_id" => $newPosterID
+            ], [
+                "author_id" => $id
+            ]);
+        }
+        
+        if (is_string($tags)) {
+            $tags = explode(' ', $tags);
+            foreach ($tags as $tag) {
+                $this->database->insert("PosterTags", [
+                    "poster" => $newPosterID,
+                    "tag" => $tag
+                ]);
+            }
+        }
+    }
+    
+    public function removePoster() {
+        
+    }
+
+    public function addLecture($title, $abstract, $schedule_id, $place, $auhors_id, $tags) {
+        $this->database->insert("Lectures", [
+            "title" => $title,
+            "abstract" => $abstract,
+            "schedule" => $schedule_id,
+            "place" => $place
+        ]);
+        
+        //update Authors table with recent data
+        $newLectureID = $this->database->id();
+        foreach ($authors_id as $id) {
+            $this->database->update("Authors", [
+                "lecture_id" => $newPosterID
+            ], [
+                "author_id" => $id
+            ]);
+        }
+        
+        if (is_string($tags)) {
+            $tags = explode(' ', $tags);
+            foreach ($tags as $tag) {
+                $this->database->insert("LectureTags", [
+                    "poster" => $newLectureID,
+                    "tag" => $tag
+                ]);
+            }
+        }
+    }
+    
+    public function removeLecture() {
+        
+    }
+    
+    public function addUser() {
+        
+    }
+    
+    public function removeUser() {
+        
+    }
+
+    public function generateCode() {
+        $newCode = $this->readableRandomString();
+        $userData = $database->select("Users", [
+            "user_id"], [
+            "code" => $newCode]);
+        if (is_null($userData)) {
+            $this->generateCode();
+        } else {
+            return $newCode;
+        }
     }
     
     private function readableRandomString($length = 6) {

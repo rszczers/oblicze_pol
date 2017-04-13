@@ -29,6 +29,7 @@ $userData = $database->select("Users", [
     "fname",
     "code",
     "didVote",
+    "isAdmin",
     "email"], [
     "code" => $userCode]);
 //If so, then construct page
@@ -62,7 +63,12 @@ if (count($userData) > 0) {
             }
             print_r(json_encode($json, JSON_PRETTY_PRINT));
         }
-    } else {
+    } else if ($userRequest == ADMIN_PANEL_REQUESTCODE &&
+            $userData["isAdmin"] == 1) {
+        ob_start(); 
+        require("view/adminPanel/adminViewLayout.php"); 
+        ob_end_flush();
+    } else { 
         $uvc = new userViewController($database);
         $lectureList = new lecturesList($uvc->getLectures());
         ob_start(); 
