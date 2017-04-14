@@ -1,111 +1,58 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
-    <link rel="icon" href="../assets/favicon.ico">
-
-    <title>Panel administracyjny</title>
-
-    <!-- Bootstrap core CSS -->
-    <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <link href="../assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-    <!-- Custom styles for this template -->
-    <link href="../assets/adminStyle.css" rel="stylesheet">
-
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-    <script src="../assets/js/ie-emulation-modes-warning.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-  </head>
-
-  <body>
-
-    <div class="container">
-
-      <!-- Static navbar -->
-      <nav class="navbar navbar-default">
-        <div class="container-fluid">
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-              <span class="sr-only">Toggle navigation</span>
-            </button>
-            <a class="navbar-brand" href="#">θβℓιcℤε</a>
-          </div>
-          <div id="navbar" class="navbar-collapse collapse">
-            <ul class="nav navbar-nav">
-              <li class="active"><a href="#">Zarządzanie</a></li>
-              <li><a href="#">Wyniki głosowania</a></li>
-            </ul>
-            <ul class="nav navbar-nav navbar-right">
-            </ul>
-          </div><!--/.nav-collapse -->
-        </div><!--/.container-fluid -->
-      </nav>
-
- <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container">
-        <h1 class="display-3">Panel administracyjny</h1>
-        <!--<p></p>-->
-      </div>
-    </div>
-
+<?php
+    ob_start();
+    session_start();
+    
+    var_dump($_POST);
+    
+    include('adminViewHeader.php');
+    
+    if (!empty($_POST['password'])) {
+        if ($_POST['password'] == ADMIN_PANEL_PASSWD) {
+            $_SESSION['valid'] = true;
+            $_SESSION['timeout'] = time();                       
+        }
+    }
+    
+    if ($_SESSION['valid'] == true) {
+        include('adminViewNavbar.php');    
+?>
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-6">
-          <?php include('newLectureForm.php'); ?>
+            <?php include('newLectureForm.php'); ?>
         </div>
         <div class="col-md-6">
-          <?php include('newPosterForm.php'); ?>
+            <?php include('newPosterForm.php'); ?>
        </div>        
       </div>
       <div class="row">
         <div class="col-md-6">
-          <?php include('newUserForm.php'); ?>
+            <?php include('newUserForm.php'); ?>
         </div>
         <div class="col-md-6">
-          <?php include('removeForm.php'); ?>
+            <?php include('removeForm.php'); ?>
        </div>        
       </div>
       <div class="row">
         <div class="col-md-6">
-          <?php include('newBreakForm.php'); ?>
+            <?php include('newBreakForm.php'); ?>
         </div>
         <div class="col-md-6">
-          <?php include('removeBreakForm.php'); ?>
+            <?php include('removeBreakForm.php'); ?>
        </div>        
       </div>
-
-      <hr>
-
-      <footer>
-        <p>θβℓιcℤε 2017</p>
-      </footer>
-    </div> <!-- /container -->
-
-
-
-    <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery.min.js"><\/script>')</script>
-    <script src="../dist/js/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="../assets/js/ie10-viewport-bug-workaround.js"></script>
-  </body>
-</html>
+      <div class="row">
+        <div class="col-md-6">
+            <?php include('newScheduleForm.php'); ?>
+        </div>
+        <div class="col-md-6">
+            <?php include('removeScheduleForm.php'); ?>
+        </div>
+      </div>
+<?php 
+    } else {
+        include('loginForm.php');
+    }
+    include('adminViewFooter.php'); 
+?>

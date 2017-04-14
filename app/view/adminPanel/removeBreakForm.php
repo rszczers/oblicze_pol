@@ -2,11 +2,11 @@
 <fieldset>
 
 <!-- Form Name -->
-<legend>Usuń przerwę</legend>
+<legend>Usuwanie przerw</legend>
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-6 control-label" for="selectbasic">Przerwy</label>
+  <label class="col-md-2 control-label" for="selectbasic">Przerwy</label>
   <div class="col-md-6">
     <select id="removeBreakSelection" name="removeBreakSelection" class="form-control">
       <option value="1">Option one</option>
@@ -17,8 +17,8 @@
 
 <!-- Button -->
 <div class="form-group">
-  <label class="col-md-6 control-label" for="removeBreakButton"></label>
-  <div class="col-md-6">
+  <label class="col-md-2 control-label" for="removeBreakButton"></label>
+  <div class="col-md-9">
     <button id="removeBreakButton" name="removeBreakButton" class="btn btn-warning">Usuń</button>
   </div>
 </div>

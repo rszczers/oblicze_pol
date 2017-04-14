@@ -8,6 +8,8 @@ require_once 'model/Breaktime.php';
 
 require_once 'controller/userViewController.php';
 require_once 'controller/mobileAppController.php';
+
+require_once 'view/JSONView/JSONView.php';
 require_once 'view/userView/lecturesList.php';
 
 use Medoo\Medoo;
@@ -34,42 +36,29 @@ $userData = $database->select("Users", [
     "code" => $userCode]);
 
 //If so, then construct page
-if (count($userData) > 0) {
+if (count($userData) == 1) {
     $userRequest = $request[1];    
     $rawDataRequest = $request[2];
-    $isAdmin = $userData[0]["isAdmin"];
-    
+    $isAdmin = ($userData[0]["isAdmin"] == 1);
     //check if its mobile app json request
     if ($userRequest == JSON_REQUEST) {
-        $mac = new mobileAppController($database);
+        $json = new JSONView(new mobileAppController($database));
         if ($rawDataRequest == JSON_REQUEST_LECTURES) {
-            $lectures = $mac->getLectures();
-            $json = array();
-            foreach ($lectures as $lecture) {
-                array_push($json, $lecture->jsonSerialize());            
-            }
-            print_r(json_encode($json, JSON_PRETTY_PRINT));
+            $json->showLectures();
         }
         if ($rawDataRequest == JSON_REQUEST_POSTERS) {
-            $posters = $mac->getPosters();
-            $json = array();
-            foreach ($posters as $poster) {
-                array_push($json, $poster->jsonSerialize());            
-            }
-            print_r(json_encode($json, JSON_PRETTY_PRINT));
+            $json->showPosters();
         }
         if ($rawDataRequest == JSON_REQUEST_BREAKS) {
-            $breaks = $mac->getBreaks();
-            $json = array();
-            foreach ($breaks as $break) {
-                array_push($json, $break->jsonSerialize());
-            }
-            print_r(json_encode($json, JSON_PRETTY_PRINT));
-        }
-    } else if ($userRequest == ADMIN_PANEL_REQUESTCODE &&
-            $isAdmin) {
+            $json->showBreaks();
+        } 
+    } else if ($isAdmin && $userRequest == ADMIN_PANEL_REQUESTCODE) {
         ob_start(); 
         require("view/adminPanel/adminViewLayout.php"); 
+        ob_end_flush();
+    } else if ($isAdmin && $userRequest == 'signoff') {
+        ob_start(); 
+        require("view/adminPanel/logout.php"); 
         ob_end_flush();
     } else if (is_null($userRequest)) { 
         $uvc = new userViewController($database);
@@ -78,7 +67,13 @@ if (count($userData) > 0) {
         require("view/userView/userViewLayout.php"); 
         ob_end_flush();
     }
-} else { //else, print 'check your code' error
-    echo "Error";
+} else if (empty($userCode)) { // insert code page
+    ob_start(); 
+    require("view/userView/insertCodePage.php"); 
+    ob_end_flush();
+} else { //code invalid
+    http_response_code(404);
+    include('view/error/404.php');
+    die();
 }
 ?>
