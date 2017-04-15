@@ -9,7 +9,8 @@ class Poster implements \JsonSerializable {
     private $endTime;
     private $place;
 
-function __construct($title, $abstract, $authors, $date, $start, $end, $place) {
+function __construct($id, $title, $abstract, $authors, $date, $start, $end, $place) {
+        $this->id = $id;
 	$this->title = $title;
 	$this->abstract = $abstract;
         $this->authors = $authors;
@@ -18,9 +19,43 @@ function __construct($title, $abstract, $authors, $date, $start, $end, $place) {
         $this->date = $date;
         $this->place = $place;
     }
-
+    
     public function jsonSerialize() {
         $vars = get_object_vars($this);
         return $vars;
     }
+    
+    function getID() {
+        return $this->id;
+    }
+
+    function getTitle() {
+        return $this->title;
+    }
+
+    function getAbstract() {
+        return $this->abstract;
+    }
+
+    function getAuthors() {
+        return $this->authors;
+    }
+
+    function getDate() {
+        return $this->date;
+    }
+
+    function getStartTime() {
+        return $this->startTime;
+    }
+
+    function getEndTime() {
+        return $this->endTime;
+    }
+
+    function getPlace() {
+        return $this->place;
+    }
+
+
 }

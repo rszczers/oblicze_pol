@@ -9,7 +9,8 @@ class Lecture implements \JsonSerializable {
     private $endTime;
     private $place;
     
-    function __construct($title, $abstract, $authors, $date, $startTime, $endTime, $place) {
+    function __construct($id, $title, $abstract, $authors, $date, $startTime, $endTime, $place) {
+        $this->id = $id;
         $this->title = $title;
         $this->abstract = $abstract;
         $this->authors = $authors;
@@ -17,6 +18,10 @@ class Lecture implements \JsonSerializable {
         $this->startTime = $startTime;
         $this->endTime = $endTime;
         $this->place = $place;
+    }
+    
+    function getID() {
+        return $this->id;
     }
     
     function getTitle() {

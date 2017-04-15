@@ -15,6 +15,7 @@ require_once 'view/JSONView/JSONView.php';
 require_once 'view/userView/lecturesList.php';
 require_once 'view/adminPanel/newLectureForm.php';
 require_once 'view/adminPanel/newPosterForm.php';
+require_once 'view/adminPanel/removeForm.php';
 
 use Medoo\Medoo;
 $database = new Medoo([

@@ -102,7 +102,7 @@ class adminViewDAO {
     }
 
     public function getLectures() {
-        return $this->database->select("Lectures", ["[>]Schedule" => ["schedule" => "schedule_id"]], [
+        $dboutput = $this->database->select("Lectures", ["[>]Schedule" => ["schedule" => "schedule_id"]], [
             "Lectures.lecture_id",
             "Lectures.title",
             "Lectures.abstract",
@@ -110,8 +110,90 @@ class adminViewDAO {
             "Schedule.schedule_id",
             "Schedule.start",
             "Schedule.end",
-            "Schedule.date"]);
-    }        
+            "Schedule.date"]);                
+        
+        $lectures = array();
+        
+        foreach ($dboutput as $lecture) {
+            $relAuth = $this->database->select("Authors", [
+                        "author_id",
+                        "fname",
+                        "sname",
+                        "email"], [
+                            "lecture_id" => $lecture["lecture_id"]
+                            ]);
+            
+            $authors = array();
+            
+            foreach ($relAuth as $author) {
+                array_push($authors, new Author(
+                        $author["author_id"],
+                        $author["fname"],
+                        $author["sname"],
+                        $author["email"]));
+            }
+                    
+            array_push($lectures, new Lecture(
+                    $lecture["lecture_id"],
+                    $lecture["title"],
+                    $lecture["abstract"],
+                    $authors,
+                    $lecture["date"],
+                    $lecture["startTime"],
+                    $lecture["endTime"],
+                    $lecture["place"]));
+        }
+        
+        return $lectures;
+    }
+
+    public function getPosters() {
+        $dboutput = $this->database->select("Posters",
+                ["[>]Schedule" => ["schedule" => "schedule_id"]],
+                [
+                    "Posters.poster_id",
+                    "Posters.title",
+                    "Posters.abstract",
+                    "Posters.place",
+                    "Schedule.schedule_id",
+                    "Schedule.start",
+                    "Schedule.end",
+                    "Schedule.date"
+                    ]);
+        
+        $posters = array();
+        
+        foreach ($dboutput as $poster) {
+            $relAuth = $this->database->select("Authors", [
+                    "author_id",
+                    "fname",
+                    "sname",
+                    "email"], [
+                        "poster_id" => $poster["poster_id"]
+                        ]);
+            
+            $authors = array();
+            
+            foreach ($relAuth as $author) {
+                array_push($authors, new Author(
+                        $author["author_id"],
+                        $author["fname"],
+                        $author["sname"],
+                        $author["email"]));
+            }
+            
+            array_push($posters, new Poster(
+                    $poster["poster_id"],
+                    $poster["title"],
+                    $poster["abstract"],
+                    $authors,
+                    $poster["date"],
+                    $poster["startTime"],
+                    $poster["endTime"],
+                    $poster["place"]));
+        }
+        return $posters;        
+    }      
       
     public function addPoster($title, $abstract, $schedule_id, $place, $auhors_id, $tags) {        
         $this->database->insert("Posters", [

@@ -31,7 +31,7 @@
             $npf = new newPosterForm(
                     $apc->getNonPosterAuthors(),
                     $apc->getNonUsedSchedules());
-            include('newPosterForm.php');
+            $npf->show();
             ?>
        </div>        
       </div>
@@ -40,7 +40,12 @@
             <?php include('newUserForm.php'); ?>
         </div>
         <div class="col-md-6">
-            <?php include('removeForm.php'); ?>
+            <?php
+            $rf = new removeForm(
+                    $apc->getLectures(),
+                    $apc->getPosters());
+            $rf->show();
+            ?>
        </div>        
       </div>
       <div class="row">
