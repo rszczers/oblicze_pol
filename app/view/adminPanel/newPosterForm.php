@@ -61,7 +61,8 @@ class newPosterForm {
         $start = $schedule->getStart("H:i");
         $end = $schedule->getEnd("H:i");
         $date = $schedule->getDate("d/m");
-        $full = $start . '-' . $end . ' ' .  $date;
+        $place = $schedule->getPlace();
+        $full = 'godzina ' . $start . ' - ' . $end . ', miejsce: ' . $place . ', dzień: ' . $date;
         echo '<option value="' . $id . '">' . $full . "</option>";
     }
     ?>

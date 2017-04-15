@@ -6,8 +6,9 @@ class Schedule {
     private $end;
     private $date;
     private $type;
+    private $place;
     
-    function __construct($schedule_id, $start, $end, $date, $type) {
+    function __construct($schedule_id, $start, $end, $date, $type, $place) {
         $this->schedule_id = $schedule_id;
         try {
             $this->start = new DateTime($date . ' ' . $start);
@@ -18,6 +19,7 @@ class Schedule {
             exit(1);
         }
         $this->type = $type;
+        $this->place = $place;
     }
     
     public function getID() {
@@ -38,5 +40,9 @@ class Schedule {
 
     public function getType() {
         return $this->type;
+    }
+    
+    public function getPlace() {
+        return $this->place;
     }
 }

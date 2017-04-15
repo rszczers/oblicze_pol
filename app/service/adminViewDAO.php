@@ -24,7 +24,33 @@ class adminViewDAO {
                     $schedule["start"],
                     $schedule["end"],
                     $schedule["date"],
-                    $schedule["type"]));
+                    $schedule["type"],
+                    $schedule["place"]));
+        }
+        
+        return $schedules;
+    }
+    
+    public function getSchedules() {
+        $dboutput = $this->database->select("Schedule", [
+            "schedule_id",
+            "start",
+            "end",
+            "date",
+            "type",
+            "place"
+        ]);
+        
+        $schedules = array();
+        
+        foreach ($dboutput as $schedule) {
+            array_push($schedules, new Schedule(
+                    $schedule["schedule_id"],
+                    $schedule["start"],
+                    $schedule["end"],
+                    $schedule["date"],
+                    $schedule["type"],
+                    $schedule["place"]));
         }
         
         return $schedules;
@@ -48,7 +74,8 @@ class adminViewDAO {
                     $schedule["start"],
                     $schedule["end"],
                     $schedule["date"],
-                    $schedule["type"]));
+                    $schedule["type"],
+                    $schedule["place"]));
         }
         
         return $schedules;
@@ -106,11 +133,11 @@ class adminViewDAO {
             "Lectures.lecture_id",
             "Lectures.title",
             "Lectures.abstract",
-            "Lectures.place",
             "Schedule.schedule_id",
             "Schedule.start",
             "Schedule.end",
-            "Schedule.date"]);                
+            "Schedule.date",
+            "Schedule.place"]);                
         
         $lectures = array();
         
@@ -138,10 +165,13 @@ class adminViewDAO {
                     $lecture["title"],
                     $lecture["abstract"],
                     $authors,
-                    $lecture["date"],
-                    $lecture["startTime"],
-                    $lecture["endTime"],
-                    $lecture["place"]));
+                    new Schedule(
+                        $lecture["schedule_id"],
+                        $lecture["start"],
+                        $lecture["end"],
+                        $lecture["date"],
+                        $lecture["type"],
+                        $lecture["place"])));
         }
         
         return $lectures;
@@ -154,11 +184,11 @@ class adminViewDAO {
                     "Posters.poster_id",
                     "Posters.title",
                     "Posters.abstract",
-                    "Posters.place",
                     "Schedule.schedule_id",
                     "Schedule.start",
                     "Schedule.end",
-                    "Schedule.date"
+                    "Schedule.date",
+                    "Schedule.place"
                     ]);
         
         $posters = array();
@@ -187,10 +217,13 @@ class adminViewDAO {
                     $poster["title"],
                     $poster["abstract"],
                     $authors,
-                    $poster["date"],
-                    $poster["startTime"],
-                    $poster["endTime"],
-                    $poster["place"]));
+                    new Schedule(
+                        $lecture["schedule_id"],
+                        $lecture["start"],
+                        $lecture["end"],
+                        $lecture["date"],
+                        $lecture["type"],
+                        $lecture["place"])));
         }
         return $posters;        
     }

@@ -53,7 +53,7 @@ class newLectureForm {
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-2 control-label" for="newLectureTime">Termin</label>
+  <label class="col-md-2 control-label" for="newLectureTime">Wolne sale</label>
   <div class="col-md-9">
     <select id="newLectureTime" name="newLectureTime" class="form-control">
     <?php 
@@ -62,20 +62,12 @@ class newLectureForm {
         $start = $schedule->getStart("H:i");
         $end = $schedule->getEnd("H:i");
         $date = $schedule->getDate("d/m");
-        $full = $start . '-' . $end . ' ' .  $date;
+        $place = $schedule->getPlace();
+        $full = 'godzina ' . $start . ' - ' . $end . ', sala: ' . $place . ', dzień: ' . $date;
         echo '<option value="' . $id . '">' . $full . "</option>";
     }
     ?>
     </select>
-  </div>
-</div>
-
-<!-- Text input-->
-<div class="form-group">
-  <label class="col-md-2 control-label" for="newLecturePlace">Miejsce</label>  
-  <div class="col-md-9">
-  <input id="newLecturePlace" name="newLecturePlace" placeholder="" class="form-control input-md" type="text">
-    
   </div>
 </div>
 

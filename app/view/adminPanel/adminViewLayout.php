@@ -30,7 +30,7 @@
             <?php
             $npf = new newPosterForm(
                     $apc->getNonPosterAuthors(),
-                    $apc->getNonUsedSchedules());
+                    $apc->getSchedules());
             $npf->show();
             ?>
        </div>        
@@ -64,7 +64,10 @@
             <?php include('newScheduleForm.php'); ?>
         </div>
         <div class="col-md-6">
-            <?php include('removeScheduleForm.php'); ?>
+            <?php 
+            $rsf = new removeScheduleForm($apc->getSchedules());
+            $rbf->show();
+            ?>
         </div>
       </div>
 <?php 

@@ -1,3 +1,13 @@
+<?php
+class removeScheduleForm {
+    private $schedules;
+    
+    function __construct($schedules) {
+        $this->schedules = $schedules;
+    }
+    
+    public function show() {
+?>
 <form class="form-horizontal">
 <fieldset>
 
@@ -9,8 +19,16 @@
   <label class="col-md-2 control-label" for="removeSchedulesSelect">Terminy</label>
   <div class="col-md-9">
     <select id="removeSchedulesSelect" name="removeSchedulesSelect" class="form-control" multiple="multiple">
-      <option value="1">Option one</option>
-      <option value="2">Option two</option>
+        <?php
+        foreach ($schedules as $schedule) {
+            $start = $schedule->getStart("H:i");
+            $end = $schedule->getEnd("H:i");
+            $date = $schedule->getDate("d/m");
+            $type = $schedule->getType();
+            $full = $type. ': ' . $start . '-' . $end . ' ' .  $date;
+            echo '<option value="' . $id . '">' . $full . "</option>";
+        }
+        ?>
     </select>
   </div>
 </div>
@@ -25,3 +43,7 @@
 
 </fieldset>
 </form>
+<?php
+    }
+}
+?>

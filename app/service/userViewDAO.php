@@ -1,69 +1,100 @@
 <?php
 class userViewDAO {
     protected $database;
-    private $lecturesData;
-    private $postersData;
-    private $relatedAuthors;
-    private $lectureAuthors;
-    private $posterAuthors;
     
-    function __construct($databaseHandler) {
-        $this->lectureAuthors = array();
-        $this->posterAuthors = array();  
-        
+    function __construct($databaseHandler) {      
         $this->database = $databaseHandler;
-        $this->lecturesData = $this->setLecturesData();
-        $this->postersData = $this->setPostersData();
-        $this->relatedAuthors = $this->setRelatedAuthors();
-        $this->setAuthorsRight();
     }
     
-    private function setLecturesData() {
+    private function getLecturesData() {
         return $this->database->select("Lectures", ["[>]Schedule" => ["schedule" => "schedule_id"]], [
             "Lectures.lecture_id",
             "Lectures.title",
             "Lectures.abstract",
+            "Schedule.schedule_id",
             "Schedule.start",
             "Schedule.end",
             "Schedule.date",
-            "Lectures.place"]);
+            "Schedule.place"]);
     }
     
-    private function setPostersData() {
+    private function getPostersData() {
         return $this->database->select("Posters", ["[>]Schedule" => ["schedule" => "schedule_id"]], [
             "Posters.poster_id",
             "Posters.title",
             "Posters.abstract",
+            "Schedule.schedule_id",
             "Schedule.start",
             "Schedule.end",
             "Schedule.date",
-            "Posters.place"]);
+            "Schedule.place"]);
     }
     
-    private function setAuthorsRight() {
-        foreach ($this->relatedAuthors as $author) {
-            $newAuthor = new Author($author["author_id"],
-                    $author["fname"], $author["sname"], $author["email"]);
-
-            if (!is_null($author["lecture_id"])) { // author has lecture
-                if (array_key_exists($author["lecture_id"], $this->lectureAuthors)) {
-                    array_push($this->lectureAuthors[$author["lecture_id"]], $newAuthor);
-                } else {
-                    $this->lectureAuthors[$author["lecture_id"]] = array($newAuthor);
-                }
-            }
-            
-            if (!is_null($author["poster_id"])) {
-                if (array_key_exists($author["poster_id"], $this->posterAuthors)) {
-                    array_push($this->posterAuthors[$author["poster_id"]], $newAuthor);
-                } else {
-                    $this->posterAuthors[$author["poster_id"]] = array($newAuthor);
-                }
-            }
-        };
+    private function getLectureTagsData() {
+        return $this->database->select("LectureTags", [
+            "tag_id",
+            "lecture",
+            "tag"
+        ]);
     }
     
-    private function setRelatedAuthors() {
+    private function getPosterTagsData() {
+        return $this->database->select("PosterTags", [
+            "tag_id",
+            "poster",
+            "tag"
+        ]);
+    }
+    
+    private function matchPosterTags($tagsData, $id) {
+        $output = array();
+        foreach ($tagsData as $row) {
+            if ($row["poster"] == $id) {
+                array_push($output, $row["tag"]);
+            }
+        }
+        return $output;        
+    }
+    
+    private function matchLectureTags($tagsData, $id) {
+        $output = array();
+        foreach ($tagsData as $row) {
+            if ($row["lecture"] == $id) {
+                array_push($output, $row["tag"]);
+            }
+        }
+        return $output;        
+    }
+    
+    private function matchLectureAuthors($relAuthData, $id) {
+        $output = array();
+        foreach ($relAuthData as $row) {
+            if($row["lecture_id"] == $id) {
+                array_push($output, new Author(
+                        $row["author_id"],
+                        $row["fname"],
+                        $row["sname"], 
+                        $row["email"]));
+            }
+        }
+        return $output;
+    }
+    
+    private function matchPosterAuthors($relAuthData, $id) {
+        $output = array();
+        foreach ($relAuthData as $row) {
+            if($row["poster_id"] == $id) {
+                array_push($output, new Author(
+                        $row["author_id"],
+                        $row["fname"],
+                        $row["sname"], 
+                        $row["email"]));
+            }
+        }
+        return $output;
+    }
+    
+    private function getRelatedAuthors() {
         return $this->database->select("Authors", [
             "[>]Lectures" => ["lecture_id" => "lecture_id"],
             "[>]Posters" => ["poster_id" => "poster_id"]], [
@@ -77,33 +108,49 @@ class userViewDAO {
     }
     
     public function getLectures() {
+        $data = $this->getLecturesData();
+        $tags = $this->getLectureTagsData();
+        $authors = $this->getRelatedAuthors();
+                
         $lectures = array();
-        foreach ($this->lecturesData as $lecture) {
+        foreach ($data as $lecture) {
             $lectures[$lecture["lecture_id"]] = new Lecture(
                 $lecture["lecture_id"],
                 $lecture["title"],
                 $lecture["abstract"],
-                $this->lectureAuthors[$lecture["lecture_id"]],
-                $lecture["date"],
-                $lecture["start"],
-                $lecture["end"],
-                $lecture["place"]);
+                $this->matchLectureAuthors($authors, $lecture["lecture_id"]),
+                new Schedule(
+                    $lecture["schedule_id"],
+                    $lecture["start"],
+                    $lecture["end"],
+                    $lecture["date"],
+                    $lecture["type"],
+                    $lecture["place"]),
+                $this->matchLectureTags($tags, $lecture["lecture_id"]));
         }
         return $lectures;
     }
     
     public function getPosters() {
+        $data = $this->getPostersData();
+        $tags = $this->getPosterTagsDataTagsData();
+        $authors = $this->getRelatedAuthors();
+        
         $posters = array();
-        foreach ($this->postersData as $poster) {
+        foreach ($data as $poster) {
             $posters[$poster["poster_id"]] = new Poster(
                 $poster['poster_id'],
                 $poster["title"],
                 $poster["abstract"],
-                $this->posterAuthors[$poster["poster_id"]],
-                $poster["date"],
-                $poster["start"],
-                $poster["end"],
-                $poster["place"]);
+                $this->matchPosterAuthors($authors, $poster["poster_id"]),
+                new Schedule(
+                        $poster["schedule_id"],
+                        $poster["start"],
+                        $poster["end"],
+                        $poster["date"],
+                        $poster["type"],
+                        $poster["place"]),
+                $this->matchLectureTags($tags, $poster["poster_id"]));
         }
         return $posters;
     }

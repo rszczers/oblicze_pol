@@ -4,20 +4,16 @@ class Lecture implements \JsonSerializable {
     private $title;
     private $abstract;
     private $authors;
-    private $date;
-    private $startTime;
-    private $endTime;
-    private $place;
+    private $schedule;
+    private $tags;
     
-    function __construct($id, $title, $abstract, $authors, $date, $startTime, $endTime, $place) {
+    function __construct($id, $title, $abstract, $authors, $schedulem, $tags) {
         $this->id = $id;
         $this->title = $title;
         $this->abstract = $abstract;
         $this->authors = $authors;
-        $this->date = $date;
-        $this->startTime = $startTime;
-        $this->endTime = $endTime;
-        $this->place = $place;
+        $this->schedule = $schedule;
+        $this->tags = $tags;
     }
     
     function getID() {
@@ -36,25 +32,28 @@ class Lecture implements \JsonSerializable {
         return $this->authors;
     }
 
-    function getDate() {
-        return $this->date;
+    function getDate($format) {
+        return $this->schedule->getDate($format);
     }
 
-    function getStartTime() {
-        return $this->startTime;
+    function getStart($format) {
+        return $this->schedule->getStart($format);
     }
 
-    function getEndTime() {
-        return $this->endTime;
+    function getEnd($format) {
+        return $this->schedule->getEnd($format);
     }
 
     function getPlace() {
-        return $this->place;
+        return $this->schedule->getPlace();
+    }
+    
+    function getTags() {
+        return $this->tags;
     }
 
     public function jsonSerialize() {
         $vars = get_object_vars($this);
         return $vars;
     }
-
 }

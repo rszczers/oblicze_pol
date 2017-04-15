@@ -7,8 +7,8 @@ class lecturesList {
     }
     
     public function show() {
-        $output =
-          '<table class="table table-bordered">
+?>        
+          <table class="table table-bordered">
             <thead>
               <tr>
                 <th>#</th>
@@ -16,20 +16,21 @@ class lecturesList {
                 <th>Ocena</th>
               </tr>
             </thead>
-            <tbody>';
+            <tbody>
+<?php                
         $i = 1;
         foreach ($this->lectures as $lecture) { 
             $authors = $lecture->getAuthors();            
             $title = $lecture->getTitle();
-            
-            $output = $output . 
+            $tags = $lecture->getTags();
+//            var_dump($tags);
+            echo
                '<tr>
-                <td rowspan=2>' . $i . '</td>
+                <td rowspan=3>' . $i . '</td>
                 <td>' . $title . '</td>
-                <td rowspan=2 style="text-align:center">';
-            
-            $output = $output .                  
-            '<div class="radio">
+                <td rowspan=3 style="text-align:center">';
+?>          
+            <div class="radio">
                 <label><input type="radio" name="optradio">1</label>
             </div>
             <div class="radio">
@@ -37,25 +38,38 @@ class lecturesList {
             </div>
             <div class="radio disabled">
                 <label><input type="radio" name="optradio">3</label>
-            </div>';
-                                    
-            $output = $output . '</td>
-                </tr><tr><td>';
-            
+            </div>
+            </td></tr>
+            <tr><td>
+<?php       
             if (count($authors) > 1) { // Jeśli jest więcej niż jeden autor:
+                $output = '';
                 foreach ($authors as $author) {
                     $output = $output . $author->getFullName() . ', '; 
                 }
-                $output = substr($output, 0, -2); // Wywal odstęp po ostatnim autorze
+                echo substr($output, 0, -2); // Wywal odstęp po ostatnim autorze                
             } else if (count($authors) == 1) {                
-                $output = $output . $authors[0]->getFullName();
+                echo $authors[0]->getFullName();
             } else {
-                $output = $output . 'Brak autora';
+                echo 'Brak autora';
             }
-            $output = $output . '</td></tr>';
+            
+            echo '</td></tr>'
+                    . '<tr><td>';
+            
+            if (count($tags) > 0) {
+                $output = '';
+                foreach ($tags as $tag) {
+                    $output = $output . $tag . ', ';
+                }
+                $tagString = substr($tags, 0, -2);
+                echo $output;
+            } else {
+                echo 'Brak tagów';
+            }
+            echo '</td></tr>';
             $i++;
         }
-        $output = $output . '</tbody></table>';
-        echo $output;
+        echo '</tbody></table>';
     }
 }
