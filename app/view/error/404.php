@@ -22,14 +22,14 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="error-template">
-                    <h1>To nie jest strona, której szukasz.</h1>
-                    <h2>404</h2>
+                    <h1>Coś poszlo nie tak</h1>
+                    <h2>To nie jest strona, której szukasz.</h2>
                     <div class="error-details">
-                        Podany adres prowadzi do nikąd.
+                        Podany adres donikąd nie prowadzi.
                     </div>
                     <div class="error-actions">
-                        <a href="" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
-                            Wprowadź kod głosowania </a><a href="<?php PAGE_ADDRESS ?>" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Skontaktuj się z nami</a>
+                        <a href="." class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-home"></span>
+                            Wprowadź kod ponownie</a><a href="<?php PAGE_ADDRESS ?>" class="btn btn-default btn-lg"><span class="glyphicon glyphicon-envelope"></span> Skontaktuj się z nami</a>
                     </div>
                 </div>
             </div>

@@ -7,6 +7,7 @@ require_once 'model/Poster.php';
 require_once 'model/Breaktime.php';
 
 require_once 'controller/userViewController.php';
+require_once 'controller/adminViewController.php';
 require_once 'controller/mobileAppController.php';
 
 require_once 'view/JSONView/JSONView.php';
@@ -53,9 +54,11 @@ if (count($userData) == 1) {
             $json->showBreaks();
         } 
     } else if ($isAdmin && $userRequest == ADMIN_PANEL_REQUESTCODE) {
-        ob_start(); 
-        require("view/adminPanel/adminViewLayout.php"); 
-        ob_end_flush();
+        $apc = new adminViewController($database, $userCode);
+        var_dump($apc->getUsedSchedules());
+//        ob_start(); 
+//        require("view/adminPanel/adminViewLayout.php"); 
+//        ob_end_flush();
     } else if ($isAdmin && $userRequest == 'signoff') {
         ob_start(); 
         require("view/adminPanel/logout.php"); 

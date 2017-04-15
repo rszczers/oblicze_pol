@@ -1,3 +1,15 @@
+<?php
+class newLectureForm {
+    private $authors;
+    private $schedules;
+    
+    function __construct($authors, $schedules) {
+        $this->authors = $authors;
+        $this->schedules = $schedules;
+    }
+
+    public function show() {
+?> 
 <form class="form-horizontal">
 <fieldset>
 
@@ -71,4 +83,7 @@
 </div>
 
 </fieldset>
-</form>
+</form>        
+<?php
+    }
+}

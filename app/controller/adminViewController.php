@@ -2,6 +2,58 @@
 class adminViewController {
     private $database;
     
+    function __construct($database) {
+        $this->database = $database;
+    }
+    
+    public function getUsedSchedules() {
+        return $this->database->query(
+               "SELECT * FROM `Schedule` 
+                WHERE `schedule_id` 
+                IN (
+                    SELECT DISTINCT `schedule_id` 
+                    FROM (
+                        SELECT `schedule` FROM `Lectures`
+                        UNION
+                        SELECT `schedule` FROM `Posters`
+                    )  AS sid
+                )")->fetchAll(PDO::FETCH_ASSOC);
+    }
+    
+    public function getNonLectureAuthors() {
+        return $this->database->select("Authors", [
+            "author_id",
+            "fname",
+            "sname",
+            "email"
+        ], [ 
+            "lecture_id" => null
+        ]);       
+    }
+    
+    public function getNonPosterAuthors() {
+        return $this->database->select("Authors", [
+            "author_id",
+            "fname",
+            "sname",
+            "email"
+        ], [ 
+            "poster_id" => null
+        ]);       
+    }
+
+    public function getLectures() {
+        return $this->database->select("Lectures", ["[>]Schedule" => ["schedule" => "schedule_id"]], [
+            "Lectures.lecture_id",
+            "Lectures.title",
+            "Lectures.abstract",
+            "Lectures.place",
+            "Schedule.schedule_id",
+            "Schedule.start",
+            "Schedule.end",
+            "Schedule.date"]);
+    }        
+      
     public function addPoster($title, $abstract, $schedule_id, $place, $auhors_id, $tags) {        
         $this->database->insert("Posters", [
             "title" => $title,
@@ -31,8 +83,10 @@ class adminViewController {
         }
     }
     
-    public function removePoster() {
-        
+    public function removePoster($id) {
+        return $this->database->delete("Posters", [
+            'poster_id' => $id
+        ]);
     }
 
     public function addLecture($title, $abstract, $schedule_id, $place, $auhors_id, $tags) {
@@ -64,16 +118,27 @@ class adminViewController {
         }
     }
     
-    public function removeLecture() {
-        
+    public function removeLecture($id) {
+        return $this->database->delete("Lectures", [
+            'lecture_id' => $id
+        ]);        
     }
     
-    public function addUser() {
-        
+    public function addUser($fname, $sname, $code, $didVote, $isAdmin, $email) {
+        return $this->database->insert("Users", [
+            "fname" => $fname,
+            "sname" => $sname,
+            "code" => $code,
+            "didVote" => $didVote,
+            "isAdmin" => $isAdmin,
+            "email" => $email
+        ]);
     }
     
-    public function removeUser() {
-        
+    public function removeUser($id) {
+        return $this->database->delete("Users", [
+            'user_id' => $id
+        ]);
     }
 
     public function generateCode() {

@@ -3,7 +3,7 @@ class JSONView {
     private $mac;
     
     function __construct($mobileAppController) {
-        $this->mobileAppController = $mobileAppController;
+        $this->mac = $mobileAppController;
     }
     
     public function showBreaks() {

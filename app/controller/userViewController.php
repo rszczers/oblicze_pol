@@ -92,7 +92,6 @@ class userViewController {
     
     public function getPosters() {
         $posters = array();
-        //TODO
         foreach ($this->postersData as $poster) {
             $posters[$poster["poster_id"]] = new Poster(
                 $poster["title"],

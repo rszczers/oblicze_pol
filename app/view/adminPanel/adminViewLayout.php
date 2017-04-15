@@ -2,8 +2,6 @@
     ob_start();
     session_start();
     
-    var_dump($_POST);
-    
     include('adminViewHeader.php');
     
     if (!empty($_POST['password'])) {
@@ -20,7 +18,7 @@
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-6">
-            <?php include('newLectureForm.php'); ?>
+            <?php new newLectureForm($apc->getNonLectureAuthors(), $apc->getNonUsedSchedules()) ?>
         </div>
         <div class="col-md-6">
             <?php include('newPosterForm.php'); ?>
