@@ -5,13 +5,16 @@ require_once 'model/Author.php';
 require_once 'model/Lecture.php';
 require_once 'model/Poster.php';
 require_once 'model/Breaktime.php';
+require_once 'model/Schedule.php';
 
-require_once 'controller/userViewController.php';
-require_once 'controller/adminViewController.php';
-require_once 'controller/mobileAppController.php';
+require_once 'service/userViewDAO.php';
+require_once 'service/adminViewDAO.php';
+require_once 'service/mobileAppDAO.php';
 
 require_once 'view/JSONView/JSONView.php';
 require_once 'view/userView/lecturesList.php';
+require_once 'view/adminPanel/newLectureForm.php';
+require_once 'view/adminPanel/newPosterForm.php';
 
 use Medoo\Medoo;
 $database = new Medoo([
@@ -43,7 +46,7 @@ if (count($userData) == 1) {
     $isAdmin = ($userData[0]["isAdmin"] == 1);
     //check if its mobile app json request
     if ($userRequest == JSON_REQUEST) {
-        $json = new JSONView(new mobileAppController($database));
+        $json = new JSONView(new mobileAppDAO($database));
         if ($rawDataRequest == JSON_REQUEST_LECTURES) {
             $json->showLectures();
         }
@@ -53,19 +56,17 @@ if (count($userData) == 1) {
         if ($rawDataRequest == JSON_REQUEST_BREAKS) {
             $json->showBreaks();
         } 
-    } else if ($isAdmin && $userRequest == ADMIN_PANEL_REQUESTCODE) {
-        $apc = new adminViewController($database, $userCode);
-        var_dump($apc->getUsedSchedules());
-//        ob_start(); 
-//        require("view/adminPanel/adminViewLayout.php"); 
-//        ob_end_flush();
+    } else if ($isAdmin && $userRequest == ADMIN_PANEL_REQUESTCODE) {               
+        ob_start(); 
+        require("view/adminPanel/adminViewLayout.php"); 
+        ob_end_flush();
     } else if ($isAdmin && $userRequest == 'signoff') {
         ob_start(); 
         require("view/adminPanel/logout.php"); 
         ob_end_flush();
     } else if (is_null($userRequest)) { 
-        $uvc = new userViewController($database);
-        $lectureList = new lecturesList($uvc->getLectures());
+        $uvc = new userViewDAO($database);
+        $ll = new lecturesList($uvc->getLectures());
         ob_start(); 
         require("view/userView/userViewLayout.php"); 
         ob_end_flush();

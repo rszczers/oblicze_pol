@@ -1,5 +1,5 @@
 <?php
-class mobileAppController extends userViewController {
+class mobileAppDAO extends userViewDAO {
     function __construct($databaseHandler) {
         parent::__construct($databaseHandler);
     }

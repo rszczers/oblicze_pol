@@ -1,10 +1,9 @@
 <?php
-class userViewController {
+class userViewDAO {
     protected $database;
     private $lecturesData;
     private $postersData;
     private $relatedAuthors;
-    
     private $lectureAuthors;
     private $posterAuthors;
     
@@ -43,7 +42,7 @@ class userViewController {
     
     private function setAuthorsRight() {
         foreach ($this->relatedAuthors as $author) {
-            $newAuthor = new Author(
+            $newAuthor = new Author($author["author_id"],
                     $author["fname"], $author["sname"], $author["email"]);
 
             if (!is_null($author["lecture_id"])) { // author has lecture
@@ -53,6 +52,7 @@ class userViewController {
                     $this->lectureAuthors[$author["lecture_id"]] = array($newAuthor);
                 }
             }
+            
             if (!is_null($author["poster_id"])) {
                 if (array_key_exists($author["poster_id"], $this->posterAuthors)) {
                     array_push($this->posterAuthors[$author["poster_id"]], $newAuthor);
@@ -67,12 +67,13 @@ class userViewController {
         return $this->database->select("Authors", [
             "[>]Lectures" => ["lecture_id" => "lecture_id"],
             "[>]Posters" => ["poster_id" => "poster_id"]], [
+            "Authors.author_id",
             "Authors.fname",
             "Authors.sname",
             "Authors.email",
             "Lectures.lecture_id",
             "Posters.poster_id"
-        ]);
+        ]);        
     }
     
     public function getLectures() {

@@ -7,7 +7,7 @@ class newLectureForm {
         $this->authors = $authors;
         $this->schedules = $schedules;
     }
-
+    
     public function show() {
 ?> 
 <form class="form-horizontal">
@@ -38,9 +38,15 @@ class newLectureForm {
   <label class="col-md-2 control-label" for="newLectureAuthors">Autorzy</label>
   <div class="col-md-9">
     <select id="newLectureAuthors" name="newLectureAuthors" class="form-control" multiple="multiple">
-      <option value="1">Option one</option>
-      <option value="2">Option two</option>
+    <?php 
+    foreach ($this->authors as $author) {
+        $id = $author->getID();
+        $fullname = $author->getFullName();        
+        echo '<option value="' . $id . '">' . $fullname . "</option>";
+    }
+    ?>
     </select>
+    <span class="help-block">Aby jednocześnie zaznaczyć kilku autorów, trzymaj przycisk Ctrl</span>  
   </div>
 </div>
 
@@ -50,8 +56,16 @@ class newLectureForm {
   <label class="col-md-2 control-label" for="newLectureTime">Termin</label>
   <div class="col-md-9">
     <select id="newLectureTime" name="newLectureTime" class="form-control">
-      <option value="1">Option one</option>
-      <option value="2">Option two</option>
+    <?php 
+    foreach ($this->schedules as $schedule) {
+        $id = $schedule->getID();
+        $start = $schedule->getStart("H:i");
+        $end = $schedule->getEnd("H:i");
+        $date = $schedule->getDate("d/m");
+        $full = $start . '-' . $end . ' ' .  $date;
+        echo '<option value="' . $id . '">' . $full . "</option>";
+    }
+    ?>
     </select>
   </div>
 </div>

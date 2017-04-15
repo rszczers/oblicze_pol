@@ -37,7 +37,9 @@
       <div class="page-header">
         <h1>Witaj, <?php echo $userData[0]['fname'];?></h1>
       </div>
-        <?php $lectureList->show();?>
+        <?php 
+        $ll->show();
+        ?>
     </div>
 
     <footer class="footer">

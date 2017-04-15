@@ -1,3 +1,15 @@
+<?php
+class newPosterForm {
+    private $authors;
+    private $schedules;
+    
+    function __construct($authors, $schedules) {
+        $this->authors = $authors;
+        $this->schedules = $schedules;
+    }
+    
+    public function show() {
+?>
 <form class="form-horizontal">
 <fieldset>
 
@@ -6,59 +18,76 @@
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-2 control-label" for="newLectureTitle">Tytuł</label>  
+  <label class="col-md-2 control-label" for="newPosterTitle">Tytuł</label>  
   <div class="col-md-9">
-  <input id="newLectureTitle" name="newLectureTitle" placeholder="tytuł nowego referatu" class="form-control input-md" type="text">
+  <input id="newPosterTitle" name="newPosterTitle" placeholder="tytuł nowego plakatu" class="form-control input-md" type="text">
     
   </div>
 </div>
 
 <!-- Textarea -->
 <div class="form-group">
-  <label class="col-md-2 control-label" for="newLectureAbstract">Abstrakt</label>
+  <label class="col-md-2 control-label" for="newPosterAbstract">Abstrakt</label>
   <div class="col-md-9">                     
-    <textarea class="form-control" id="newLectureAbstract" name="newLectureAbstract"></textarea>
+    <textarea class="form-control" id="newPosterAbstract" name="newPosterAbstract"></textarea>
   </div>
 </div>
 
 <!-- Select Multiple -->
 <div class="form-group">
-  <label class="col-md-2 control-label" for="newLectureAuthors">Autorzy</label>
+  <label class="col-md-2 control-label" for="newPosterAuthors">Autorzy</label>
   <div class="col-md-9">
-    <select id="newLectureAuthors" name="newLectureAuthors" class="form-control" multiple="multiple">
-      <option value="1">Option one</option>
-      <option value="2">Option two</option>
+    <select id="newPosterAuthors" name="newPosterAuthors" class="form-control" multiple="multiple">
+    <?php 
+    foreach ($this->authors as $author) {
+        $id = $author->getID();
+        $fullname = $author->getFullName();        
+        echo '<option value="' . $id . '">' . $fullname . "</option>";
+    }
+    ?>
     </select>
+      <span class="help-block">Aby jednocześnie zaznaczyć kilku autorów, trzymaj przycisk Ctrl</span>  
   </div>
 </div>
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-2 control-label" for="newLectureTime">Termin</label>
+  <label class="col-md-2 control-label" for="newPosterTime">Termin</label>
   <div class="col-md-9">
-    <select id="newLectureTime" name="newLectureTime" class="form-control">
-      <option value="1">Option one</option>
-      <option value="2">Option two</option>
+    <select id="newPosterTime" name="newPosterTime" class="form-control">
+    <?php 
+    foreach ($this->schedules as $schedule) {
+        $id = $schedule->getID();
+        $start = $schedule->getStart("H:i");
+        $end = $schedule->getEnd("H:i");
+        $date = $schedule->getDate("d/m");
+        $full = $start . '-' . $end . ' ' .  $date;
+        echo '<option value="' . $id . '">' . $full . "</option>";
+    }
+    ?>
     </select>
   </div>
 </div>
 
 <!-- Text input-->
 <div class="form-group">
-  <label class="col-md-2 control-label" for="newLectureTags">Tagi</label>  
+  <label class="col-md-2 control-label" for="newPosterTags">Tagi</label>  
   <div class="col-md-9">
-  <input id="newLectureTags" name="newLectureTags" placeholder="" class="form-control input-md" type="text">
+  <input id="newPosterTags" name="newPosterTags" placeholder="" class="form-control input-md" type="text">
   <span class="help-block">Przykład: #teoria_liczb #topologia</span>  
   </div>
 </div>
 
 <!-- Button -->
 <div class="form-group">
-  <label class="col-md-2 control-label" for="newLectureButton"></label>
+  <label class="col-md-2 control-label" for="newPosterButton"></label>
   <div class="col-md-9">
-    <button id="newLectureButton" name="newLectureButton" class="btn btn-primary">Dodaj</button>
+    <button id="newPosterButton" name="newPosterButton" class="btn btn-primary">Dodaj</button>
   </div>
 </div>
 
 </fieldset>
 </form>
+<?php
+    }
+}

@@ -1,45 +1,104 @@
 <?php
-class adminViewController {
+class adminViewDAO {
     private $database;
     
     function __construct($database) {
         $this->database = $database;
     }
     
+    public function getNonUsedSchedules() {
+        $dboutput = $this->database->query(
+               "SELECT * FROM `Schedule` 
+                WHERE `schedule_id` 
+                NOT IN (
+                    SELECT DISTINCT `schedule` FROM `Lectures`
+                    UNION
+                    SELECT DISTINCT `schedule` FROM `Posters`
+                )")->fetchAll(PDO::FETCH_ASSOC);
+        
+        $schedules = array();
+        
+        foreach ($dboutput as $schedule) {
+            array_push($schedules, new Schedule(
+                    $schedule["schedule_id"],
+                    $schedule["start"],
+                    $schedule["end"],
+                    $schedule["date"],
+                    $schedule["type"]));
+        }
+        
+        return $schedules;
+    }
+    
     public function getUsedSchedules() {
-        return $this->database->query(
+        $dboutput = $this->database->query(
                "SELECT * FROM `Schedule` 
                 WHERE `schedule_id` 
                 IN (
-                    SELECT DISTINCT `schedule_id` 
-                    FROM (
-                        SELECT `schedule` FROM `Lectures`
-                        UNION
-                        SELECT `schedule` FROM `Posters`
-                    )  AS sid
+                    SELECT DISTINCT `schedule` FROM `Lectures`
+                    UNION
+                    SELECT DISTINCT `schedule` FROM `Posters`
                 )")->fetchAll(PDO::FETCH_ASSOC);
+        
+                $schedules = array();
+        
+        foreach ($dboutput as $schedule) {
+            array_push($schedules, new Schedule(
+                    $schedule["schedule_id"],
+                    $schedule["start"],
+                    $schedule["end"],
+                    $schedule["date"],
+                    $schedule["type"]));
+        }
+        
+        return $schedules;
     }
     
     public function getNonLectureAuthors() {
-        return $this->database->select("Authors", [
+        $dboutput = $this->database->select("Authors", [
             "author_id",
             "fname",
             "sname",
             "email"
         ], [ 
             "lecture_id" => null
-        ]);       
+        ]);
+        
+        
+        $authors = array();
+        
+        foreach ($dboutput as $author) {
+            array_push($authors, new Author(
+                    $author["author_id"],
+                    $author["fname"], 
+                    $author["sname"],
+                    $author["email"]));
+        }
+        
+        return $authors;
     }
     
     public function getNonPosterAuthors() {
-        return $this->database->select("Authors", [
+        $dboutput = $this->database->select("Authors", [
             "author_id",
             "fname",
             "sname",
             "email"
         ], [ 
             "poster_id" => null
-        ]);       
+        ]);
+        
+        $authors = array();
+        
+        foreach ($dboutput as $author) {
+            array_push($authors, new Author(
+                    $author["author_id"],
+                    $author["fname"], 
+                    $author["sname"],
+                    $author["email"]));
+        }
+        
+        return $authors;
     }
 
     public function getLectures() {

@@ -18,36 +18,39 @@ class lecturesList {
             </thead>
             <tbody>';
         $i = 1;
-        foreach ($this->lectures as $lecture) {        
-            $authors = $lecture->getAuthors();
+        foreach ($this->lectures as $lecture) { 
+            $authors = $lecture->getAuthors();            
             $title = $lecture->getTitle();
-           
+            
             $output = $output . 
                '<tr>
                 <td rowspan=2>' . $i . '</td>
                 <td>' . $title . '</td>
                 <td rowspan=2 style="text-align:center">';
-            $output = $output .
-                    
-'<div class="radio">
-  <label><input type="radio" name="optradio">1</label>
-</div>
-<div class="radio">
-  <label><input type="radio" name="optradio">2</label>
-</div>
-<div class="radio disabled">
-  <label><input type="radio" name="optradio">3</label>
-</div>';
+            
+            $output = $output .                  
+            '<div class="radio">
+                <label><input type="radio" name="optradio">1</label>
+            </div>
+            <div class="radio">
+                <label><input type="radio" name="optradio">2</label>
+            </div>
+            <div class="radio disabled">
+                <label><input type="radio" name="optradio">3</label>
+            </div>';
                                     
             $output = $output . '</td>
                 </tr><tr><td>';
-            if (count($authors) > 1) {
+            
+            if (count($authors) > 1) { // Jeśli jest więcej niż jeden autor:
                 foreach ($authors as $author) {
                     $output = $output . $author->getFullName() . ', '; 
                 }
-                $output = substr($output, 0, -2); 
+                $output = substr($output, 0, -2); // Wywal odstęp po ostatnim autorze
+            } else if (count($authors) == 1) {                
+                $output = $output . $authors[0]->getFullName();
             } else {
-                 $output = $output . $authors[0]->getFullName();
+                $output = $output . 'Brak autora';
             }
             $output = $output . '</td></tr>';
             $i++;

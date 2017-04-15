@@ -12,16 +12,27 @@
     }
     
     if ($_SESSION['valid'] == true) {
-        include('adminViewNavbar.php');    
+        include('adminViewNavbar.php'); 
+        $apc = new adminViewDAO($database);
 ?>
     <div class="container">
       <!-- Example row of columns -->
       <div class="row">
         <div class="col-md-6">
-            <?php new newLectureForm($apc->getNonLectureAuthors(), $apc->getNonUsedSchedules()) ?>
+            <?php
+            $nlf = new newLectureForm(
+                    $apc->getNonLectureAuthors(),
+                    $apc->getNonUsedSchedules());        
+            $nlf->show();
+            ?>
         </div>
         <div class="col-md-6">
-            <?php include('newPosterForm.php'); ?>
+            <?php
+            $npf = new newPosterForm(
+                    $apc->getNonPosterAuthors(),
+                    $apc->getNonUsedSchedules());
+            include('newPosterForm.php');
+            ?>
        </div>        
       </div>
       <div class="row">
