@@ -30,10 +30,6 @@ class Breaktime implements \JsonSerializable {
         return $this->schedule->getEnd($format);
     }
 
-    function getType() {
-        return $this->schedule->getType();
-    }
-
     public function jsonSerialize() {
         $vars = get_object_vars($this);
         return $vars;

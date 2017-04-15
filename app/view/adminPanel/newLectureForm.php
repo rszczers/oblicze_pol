@@ -46,7 +46,7 @@ class newLectureForm {
     }
     ?>
     </select>
-    <span class="help-block">Aby jednocześnie zaznaczyć kilku autorów, trzymaj przycisk Ctrl</span>  
+      <span class="help-block">Aby jednocześnie zaznaczyć kilku autorów, przytrzymaj <kbd>Ctrl</kbd></span>  
   </div>
 </div>
 

@@ -1,4 +1,5 @@
 <?php
+
 class adminViewDAO {
     private $database;
     
@@ -24,7 +25,6 @@ class adminViewDAO {
                     $schedule["start"],
                     $schedule["end"],
                     $schedule["date"],
-                    $schedule["type"],
                     $schedule["place"]));
         }
         
@@ -37,7 +37,6 @@ class adminViewDAO {
             "start",
             "end",
             "date",
-            "type",
             "place"
         ]);
         
@@ -49,7 +48,6 @@ class adminViewDAO {
                     $schedule["start"],
                     $schedule["end"],
                     $schedule["date"],
-                    $schedule["type"],
                     $schedule["place"]));
         }
         
@@ -74,7 +72,6 @@ class adminViewDAO {
                     $schedule["start"],
                     $schedule["end"],
                     $schedule["date"],
-                    $schedule["type"],
                     $schedule["place"]));
         }
         
@@ -83,12 +80,14 @@ class adminViewDAO {
     
     public function getNonLectureAuthors() {
         $dboutput = $this->database->select("Authors", [
-            "author_id",
-            "fname",
-            "sname",
-            "email"
+            "[>]Users" => ["user" => "user_id"]
+        ], [
+            "Authors.author_id",
+            "Users.fname",
+            "Users.sname",
+            "Users.email"
         ], [ 
-            "lecture_id" => null
+            "Authors.lecture_id" => null
         ]);
         
         
@@ -107,12 +106,14 @@ class adminViewDAO {
     
     public function getNonPosterAuthors() {
         $dboutput = $this->database->select("Authors", [
-            "author_id",
-            "fname",
-            "sname",
-            "email"
+            "[>]Users" => ["user" => "user_id"]
+        ], [
+            "Authors.author_id",
+            "Users.fname",
+            "Users.sname",
+            "Users.email"
         ], [ 
-            "poster_id" => null
+            "Authors.poster_id" => null
         ]);
         
         $authors = array();
@@ -170,7 +171,6 @@ class adminViewDAO {
                         $lecture["start"],
                         $lecture["end"],
                         $lecture["date"],
-                        $lecture["type"],
                         $lecture["place"])));
         }
         
@@ -222,7 +222,6 @@ class adminViewDAO {
                         $lecture["start"],
                         $lecture["end"],
                         $lecture["date"],
-                        $lecture["type"],
                         $lecture["place"])));
         }
         return $posters;        
@@ -238,7 +237,7 @@ class adminViewDAO {
                 "Schedule.date",
                 "Schedule.start",
                 "Schedule.end",
-                "Schedule.type"
+                "Schedule.place"
             ]);
         
         
@@ -253,7 +252,7 @@ class adminViewDAO {
                             $break["start"],
                             $break["end"],
                             $break["date"],
-                            $break["type"])));
+                            $break["place"])));
         }
 
         return $breaks;
@@ -329,13 +328,11 @@ class adminViewDAO {
         ]);        
     }
     
-    public function addUser($fname, $sname, $code, $didVote, $isAdmin, $email) {
+    public function addUser($fname, $sname, $email) {
         return $this->database->insert("Users", [
             "fname" => $fname,
             "sname" => $sname,
-            "code" => $code,
-            "didVote" => $didVote,
-            "isAdmin" => $isAdmin,
+            "code" => $this->generateCode(),
             "email" => $email
         ]);
     }

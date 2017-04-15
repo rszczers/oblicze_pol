@@ -18,18 +18,19 @@ class removeScheduleForm {
 <div class="form-group">
   <label class="col-md-2 control-label" for="removeSchedulesSelect">Terminy</label>
   <div class="col-md-9">
-    <select id="removeSchedulesSelect" name="removeSchedulesSelect" class="form-control" multiple="multiple">
-        <?php
-        foreach ($schedules as $schedule) {
+    <select id="removeSchedulesSelect" name="removeSchedulesSelect" size="15" class="form-control" multiple="multiple">
+        <?php        
+        foreach ($this->schedules as $schedule) {
             $start = $schedule->getStart("H:i");
             $end = $schedule->getEnd("H:i");
             $date = $schedule->getDate("d/m");
-            $type = $schedule->getType();
-            $full = $type. ': ' . $start . '-' . $end . ' ' .  $date;
+            $place = $schedule->getPlace();
+            $full = "sala " .  $place . ', '. $start . '-' . $end . ' ' .  $date;
             echo '<option value="' . $id . '">' . $full . "</option>";
         }
         ?>
     </select>
+      <span class="help-block">Aby jednocześnie zaznaczyć kilka terminów, przytrzymaj <kbd>Ctrl</kbd></span>  
   </div>
 </div>
 

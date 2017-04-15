@@ -5,10 +5,9 @@ class Schedule {
     private $start;
     private $end;
     private $date;
-    private $type;
     private $place;
     
-    function __construct($schedule_id, $start, $end, $date, $type, $place) {
+    function __construct($schedule_id, $start, $end, $date, $place) {
         $this->schedule_id = $schedule_id;
         try {
             $this->start = new DateTime($date . ' ' . $start);
@@ -18,7 +17,6 @@ class Schedule {
             $e->getMessage();
             exit(1);
         }
-        $this->type = $type;
         $this->place = $place;
     }
     
@@ -38,10 +36,6 @@ class Schedule {
         return $this->date->format($format);
     }
 
-    public function getType() {
-        return $this->type;
-    }
-    
     public function getPlace() {
         return $this->place;
     }

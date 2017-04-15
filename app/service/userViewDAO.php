@@ -96,15 +96,16 @@ class userViewDAO {
     
     private function getRelatedAuthors() {
         return $this->database->select("Authors", [
+            "[>]Users" => ["user" => "user_id"],
             "[>]Lectures" => ["lecture_id" => "lecture_id"],
             "[>]Posters" => ["poster_id" => "poster_id"]], [
-            "Authors.author_id",
-            "Authors.fname",
-            "Authors.sname",
-            "Authors.email",
-            "Lectures.lecture_id",
-            "Posters.poster_id"
-        ]);        
+                "Authors.author_id",
+                "Users.fname",
+                "Users.sname",
+                "Users.email",
+                "Lectures.lecture_id",
+                "Posters.poster_id"
+            ]);
     }
     
     public function getLectures() {
@@ -124,7 +125,6 @@ class userViewDAO {
                     $lecture["start"],
                     $lecture["end"],
                     $lecture["date"],
-                    $lecture["type"],
                     $lecture["place"]),
                 $this->matchLectureTags($tags, $lecture["lecture_id"]));
         }
@@ -148,7 +148,6 @@ class userViewDAO {
                         $poster["start"],
                         $poster["end"],
                         $poster["date"],
-                        $poster["type"],
                         $poster["place"]),
                 $this->matchLectureTags($tags, $poster["poster_id"]));
         }

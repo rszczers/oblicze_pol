@@ -1,3 +1,13 @@
+<?php
+class newBreakForm {
+    private $schedules;
+    
+    function __construct($schedules) {
+        $this->schedules = $schedules;
+    }
+
+    public function show() {
+?>
 <form class="form-horizontal">
 <fieldset>
 
@@ -18,8 +28,17 @@
   <label class="col-md-2 control-label" for="newBreakTime">Termin</label>
   <div class="col-md-9">
     <select id="newBreakTime" name="newBreakTime" class="form-control">
-      <option value="1">Option one</option>
-      <option value="2">Option two</option>
+    <?php
+    foreach ($this->schedules as $schedule) {
+        $id = $schedule->getID();
+        $start = $schedule->getStart("H:i");
+        $end = $schedule->getEnd("H:i");
+        $date = $schedule->getDate("d/m");
+        $place = $schedule->getPlace();
+        $full = 'godzina ' . $start . ' - ' . $end . ', miejsce: ' . $place . ', dzień: ' . $date;
+        echo '<option value="' . $id . '">' . $full . "</option>";
+    }
+    ?>
     </select>
   </div>
 </div>
@@ -34,3 +53,7 @@
 
 </fieldset>
 </form>
+<?php
+    }
+}
+?>

@@ -25,8 +25,7 @@ class removeBreakForm {
             $start = $break->getStart("H:i");
             $end = $break->getEnd("H:i");
             $date = $break->getDate("d/m");
-            $type = $break->getType();
-            $full = $type. ': ' . $start . '-' . $end . ' ' .  $date;
+            $full = $start . '-' . $end . ' ' .  $date;
             echo '<option value="' . $id . '">' . $full . "</option>";
         }
       ?>

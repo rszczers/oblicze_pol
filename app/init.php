@@ -18,6 +18,7 @@ require_once 'view/adminPanel/newPosterForm.php';
 require_once 'view/adminPanel/removeForm.php';
 require_once 'view/adminPanel/removeBreakForm.php';
 require_once 'view/adminPanel/removeScheduleForm.php';
+require_once 'view/adminPanel/newBreakForm.php';
 
 
 use Medoo\Medoo;

@@ -50,7 +50,10 @@
       </div>
       <div class="row">
         <div class="col-md-6">
-            <?php include('newBreakForm.php'); ?>
+            <?php
+            $nbf = new newBreakForm($apc->getSchedules());
+            $nbf->show();
+            ?>
         </div>
         <div class="col-md-6">
             <?php
@@ -66,7 +69,7 @@
         <div class="col-md-6">
             <?php 
             $rsf = new removeScheduleForm($apc->getSchedules());
-            $rbf->show();
+            $rsf->show();
             ?>
         </div>
       </div>
