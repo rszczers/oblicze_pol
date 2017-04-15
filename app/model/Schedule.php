@@ -14,7 +14,6 @@ class Schedule {
             $this->end = new DateTime($date . ' ' . $end);
             $this->date = new DateTime($date);
         } catch (Exception $e) {
-            echo "test";
             $e->getMessage();
             exit(1);
         }

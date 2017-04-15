@@ -80,6 +80,7 @@ class userViewDAO {
         $lectures = array();
         foreach ($this->lecturesData as $lecture) {
             $lectures[$lecture["lecture_id"]] = new Lecture(
+                $lecture["lecture_id"],
                 $lecture["title"],
                 $lecture["abstract"],
                 $this->lectureAuthors[$lecture["lecture_id"]],
@@ -95,6 +96,7 @@ class userViewDAO {
         $posters = array();
         foreach ($this->postersData as $poster) {
             $posters[$poster["poster_id"]] = new Poster(
+                $poster['poster_id'],
                 $poster["title"],
                 $poster["abstract"],
                 $this->posterAuthors[$poster["poster_id"]],

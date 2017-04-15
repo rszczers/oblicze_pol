@@ -1,3 +1,13 @@
+<?php
+class removeBreakForm {
+    private $breaks;
+    
+    function __construct($breaks) {
+        $this->breaks = $breaks;
+    }
+
+    public function show() {
+?>
 <form class="form-horizontal">
 <fieldset>
 
@@ -9,8 +19,17 @@
   <label class="col-md-2 control-label" for="selectbasic">Przerwy</label>
   <div class="col-md-6">
     <select id="removeBreakSelection" name="removeBreakSelection" class="form-control">
-      <option value="1">Option one</option>
-      <option value="2">Option two</option>
+      <?php                
+        foreach ($this->breaks as $break) {
+            $id = $break->getID();
+            $start = $break->getStart("H:i");
+            $end = $break->getEnd("H:i");
+            $date = $break->getDate("d/m");
+            $type = $break->getType();
+            $full = $type. ': ' . $start . '-' . $end . ' ' .  $date;
+            echo '<option value="' . $id . '">' . $full . "</option>";
+        }
+      ?>
     </select>
   </div>
 </div>
@@ -25,3 +44,7 @@
 
 </fieldset>
 </form>
+<?php
+    }
+}
+?>

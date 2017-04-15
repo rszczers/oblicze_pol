@@ -53,7 +53,10 @@
             <?php include('newBreakForm.php'); ?>
         </div>
         <div class="col-md-6">
-            <?php include('removeBreakForm.php'); ?>
+            <?php
+            $rbf = new removeBreakForm($apc->getBreaks());
+            $rbf->show();
+            ?>
        </div>        
       </div>
       <div class="row">

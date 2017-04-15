@@ -193,7 +193,38 @@ class adminViewDAO {
                     $poster["place"]));
         }
         return $posters;        
-    }      
+    }
+    
+    public function getBreaks() {
+        $dboutput = $this->database->select("Breaks", 
+            ["[>]Schedule" => ["schedule" => "schedule_id"]],
+            [
+                "Breaks.break_id",
+                "Breaks.title",
+                "Schedule.schedule_id",
+                "Schedule.date",
+                "Schedule.start",
+                "Schedule.end",
+                "Schedule.type"
+            ]);
+        
+        
+        $breaks = array();
+        
+        foreach ($dboutput as $break) {
+            array_push($breaks, new Breaktime(
+                    $break["break_id"], 
+                    $break["title"], 
+                    new Schedule(
+                            $break["schedule_id"],
+                            $break["start"],
+                            $break["end"],
+                            $break["date"],
+                            $break["type"])));
+        }
+
+        return $breaks;
+    }
       
     public function addPoster($title, $abstract, $schedule_id, $place, $auhors_id, $tags) {        
         $this->database->insert("Posters", [
