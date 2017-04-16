@@ -13,6 +13,7 @@ require_once 'service/mobileAppDAO.php';
 
 require_once 'view/JSONView/JSONView.php';
 require_once 'view/userView/lecturesList.php';
+require_once 'view/userView/posterList.php';
 require_once 'view/adminPanel/newLectureForm.php';
 require_once 'view/adminPanel/newPosterForm.php';
 require_once 'view/adminPanel/removeForm.php';
@@ -70,8 +71,6 @@ if (count($userData) == 1) {
         require("view/adminPanel/logout.php"); 
         ob_end_flush();
     } else if (is_null($userRequest)) { 
-        $uvc = new userViewDAO($database);
-        $ll = new lecturesList($uvc->getLectures());
         ob_start(); 
         require("view/userView/userViewLayout.php"); 
         ob_end_flush();

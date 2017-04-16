@@ -7,7 +7,8 @@ class userViewDAO {
     }
     
     private function getLecturesData() {
-        return $this->database->select("Lectures", ["[>]Schedule" => ["schedule" => "schedule_id"]], [
+        return $this->database->select("Lectures", 
+                ["[>]Schedule" => ["schedule" => "schedule_id"]], [
             "Lectures.lecture_id",
             "Lectures.title",
             "Lectures.abstract",
@@ -19,7 +20,8 @@ class userViewDAO {
     }
     
     private function getPostersData() {
-        return $this->database->select("Posters", ["[>]Schedule" => ["schedule" => "schedule_id"]], [
+        return $this->database->select("Posters", 
+                ["[>]Schedule" => ["schedule" => "schedule_id"]], [
             "Posters.poster_id",
             "Posters.title",
             "Posters.abstract",
@@ -133,7 +135,7 @@ class userViewDAO {
     
     public function getPosters() {
         $data = $this->getPostersData();
-        $tags = $this->getPosterTagsDataTagsData();
+        $tags = $this->getPosterTagsData();
         $authors = $this->getRelatedAuthors();
         
         $posters = array();
@@ -149,8 +151,8 @@ class userViewDAO {
                         $poster["end"],
                         $poster["date"],
                         $poster["place"]),
-                $this->matchLectureTags($tags, $poster["poster_id"]));
-        }
+                $this->matchPosterTags($tags, $poster["poster_id"]));
+        }        
         return $posters;
     }
 }

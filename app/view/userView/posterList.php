@@ -1,24 +1,21 @@
 <?php
-class lecturesList {
-    private $lectures;
+class posterList {
+    private $posters;
  
-    function __construct($lectures) {
-        $this->lectures = $lectures;
+    function __construct($poster) {
+        $this->posters = $poster;        
     }
     
     public function show() {
 ?>      
-        
         <div class="row">
             <div class="col-md-10">
-                <h3>Referaty:</h3>
+                <h3>Plakaty:</h3>
             </div>
             <div class="col-md-2 text-center">
-                <button type="button" class="btn btn-danger btn-lg" onclick="resetLectures();">Reset</button>
+                <button type="button" class="btn btn-danger btn-lg" onclick="resetPosters();">Reset</button>
             </div>
         </div>
-
-          
           <table class="table table-responsive">
             <thead>
               <tr>
@@ -30,10 +27,10 @@ class lecturesList {
             <tbody>
 <?php                
         $i = 1;
-        foreach ($this->lectures as $lecture) { 
-            $authors = $lecture->getAuthors();            
-            $title = $lecture->getTitle();
-            $tags = $lecture->getTags();
+        foreach ($this->posters as $poster) { 
+            $authors = $poster->getAuthors();
+            $title = $poster->getTitle();
+            $tags = $poster->getTags();            
             echo
                '<tr>
                 <td rowspan=3 class="col-md-1">' . $i . '</td>
@@ -42,25 +39,25 @@ class lecturesList {
                 '</td><td rowspan=3 style="text-align:center" class="col-md-2">';
 ?>          
             <div class="radio">
-                <label><input id="<?php echo 'r'. ($i*3+2);?>"
+                <label><input id="<?php echo 'p'. ($i*3+2);?>"
                               type="radio" 
-                              name="<?php echo $lecture->getID(); ?>" 
-                              onclick="hideLecture(<?php echo $i*3+2;?>);"
+                              name="<?php echo $poster->getID(); ?>" 
+                              onclick="hidePoster(<?php echo $i*3+2;?>);"
                               value="3">3 pkt</label>
             </div>
             <div class="radio">
-                <label><input id="<?php echo 'r'. ($i*3+1);?>" 
+                <label><input id="<?php echo 'p'. ($i*3+1);?>" 
                               type="radio" 
-                              name="<?php echo $lecture->getID(); ?>" 
-                              onclick="hideLecture(<?php echo $i*3+1;?>);"
+                              name="<?php echo $poster->getID(); ?>" 
+                              onclick="hidePoster(<?php echo $i*3+1;?>);"
                               value="2">2 pkt</label>
             </div>
             <div class="radio">
                 <label><input 
-                        id="<?php echo 'r'. ($i*3);?>" 
+                        id="<?php echo 'p'. ($i*3);?>" 
                         type="radio" 
-                        name="<?php echo $lecture->getID(); ?>" 
-                        onclick="hideLecture(<?php echo $i*3;?>);"
+                        name="<?php echo $poster->getID(); ?>" 
+                        onclick="hidePoster(<?php echo $i*3;?>);"
                         value="1">1 pkt</label>
             </div>
             </td></tr>
@@ -94,6 +91,6 @@ class lecturesList {
             echo '</p></td></tr>';
             $i++;
         }
-        echo '</tbody></table>';
+        echo '</tbody></table>';                                    
     }
 }

@@ -48,6 +48,10 @@ function __construct($id, $title, $abstract, $authors, $schedule, $tags) {
     function getEnd($format) {
         return $this->schedule->getEnd($format);
     }
+    
+    function getTags() {
+        return $this->tags;
+    }
 
     function getPlace() {
         return $this->schedule->getPlace();
