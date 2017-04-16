@@ -38,12 +38,14 @@ $userCode = $request[0];
 
 //Check if user with such code exists
 $userData = $database->select("Users", [
+    "user_id",
     "fname",
     "code",
     "didVote",
-    "isAdmin",
-    "email"], [
+    "isAdmin"], [
     "code" => $userCode]);
+
+$userID = $userData[0]["user_id"];
 
 //If so, then construct page
 if (count($userData) == 1) {
@@ -62,6 +64,26 @@ if (count($userData) == 1) {
         if ($rawDataRequest == JSON_REQUEST_BREAKS) {
             $json->showBreaks();
         } 
+    } else if ($userRequest == 'poll') {
+        $insert = array();
+        foreach ($_POST["lectures"] as $lecture_id => $value) {
+            array_push($insert, array(
+               "user_id" => $userID,
+               "lecture_id" => $lecture_id,
+               "rate" => $value));
+        }
+        var_dump($insert);
+        $database->insert("LectureRatings", $insert);
+        
+        $insert = array();
+        foreach ($_POST["posters"] as $poster_id => $value) {
+            array_push($insert, array(
+               "user_id" => $userID,
+               "poster_id" => $poster_id,
+               "rate" => $value));
+        }
+        $database->insert("PosterRatings", $insert);
+        
     } else if ($isAdmin && $userRequest == ADMIN_PANEL_REQUESTCODE) {               
         ob_start(); 
         require("view/adminPanel/adminViewLayout.php"); 

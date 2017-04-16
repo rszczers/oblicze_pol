@@ -41,14 +41,14 @@ class posterList {
             <div class="radio">
                 <label><input id="<?php echo 'p'. ($i*3+2);?>"
                               type="radio" 
-                              name="<?php echo $poster->getID(); ?>" 
+                              name="posters[<?php echo $poster->getID(); ?>]" 
                               onclick="hidePoster(<?php echo $i*3+2;?>);"
                               value="3">3 pkt</label>
             </div>
             <div class="radio">
                 <label><input id="<?php echo 'p'. ($i*3+1);?>" 
                               type="radio" 
-                              name="<?php echo $poster->getID(); ?>" 
+                              name="posters[<?php echo $poster->getID(); ?>]" 
                               onclick="hidePoster(<?php echo $i*3+1;?>);"
                               value="2">2 pkt</label>
             </div>
@@ -56,7 +56,7 @@ class posterList {
                 <label><input 
                         id="<?php echo 'p'. ($i*3);?>" 
                         type="radio" 
-                        name="<?php echo $poster->getID(); ?>" 
+                        name="posters[<?php echo $poster->getID(); ?>]" 
                         onclick="hidePoster(<?php echo $i*3;?>);"
                         value="1">1 pkt</label>
             </div>

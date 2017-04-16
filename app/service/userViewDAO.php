@@ -4,7 +4,7 @@ class userViewDAO {
     
     function __construct($databaseHandler) {      
         $this->database = $databaseHandler;
-    }
+    }       
     
     private function getLecturesData() {
         return $this->database->select("Lectures", 
@@ -154,5 +154,10 @@ class userViewDAO {
                 $this->matchPosterTags($tags, $poster["poster_id"]));
         }        
         return $posters;
+    }
+    
+    public function vote($user_id, $lectureIdArray, $posterIdArray,
+            $lectureVoteValuesArray, $posterVoteValuesArray) {
+        
     }
 }

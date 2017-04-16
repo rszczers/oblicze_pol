@@ -44,14 +44,14 @@ class lecturesList {
             <div class="radio">
                 <label><input id="<?php echo 'r'. ($i*3+2);?>"
                               type="radio" 
-                              name="<?php echo $lecture->getID(); ?>" 
+                              name="lectures[<?php echo $lecture->getID(); ?>]" 
                               onclick="hideLecture(<?php echo $i*3+2;?>);"
                               value="3">3 pkt</label>
             </div>
             <div class="radio">
                 <label><input id="<?php echo 'r'. ($i*3+1);?>" 
                               type="radio" 
-                              name="<?php echo $lecture->getID(); ?>" 
+                              name="lectures[<?php echo $lecture->getID(); ?>]" 
                               onclick="hideLecture(<?php echo $i*3+1;?>);"
                               value="2">2 pkt</label>
             </div>
@@ -59,7 +59,7 @@ class lecturesList {
                 <label><input 
                         id="<?php echo 'r'. ($i*3);?>" 
                         type="radio" 
-                        name="<?php echo $lecture->getID(); ?>" 
+                        name="lectures[<?php echo $lecture->getID(); ?>]" 
                         onclick="hideLecture(<?php echo $i*3;?>);"
                         value="1">1 pkt</label>
             </div>

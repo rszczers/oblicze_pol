@@ -46,7 +46,7 @@
                 <p>Gdyby coś poszło źle, kliknij ten duży czerwony przycisk 
                     po prawej.</p>
         </div>
-        <form method="POST">  
+        <form method="POST" action="./<?php echo $userCode; ?>/poll">
         <div class="row">
         <?php 
         $udao = new userViewDAO($database);
