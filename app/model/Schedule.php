@@ -40,6 +40,15 @@ class Schedule {
         return $this->place;
     }
     
+    public function getVars() {
+        return array(
+            "start" => $this->start->format('H:i'),
+            "end" => $this->end->format('H:i'),
+            "date" => $this->date->format('d m Y'),
+            "place" => $this->place
+        );
+    }
+    
     public function jsonSerialize() {
         $vars = get_object_vars($this);
         return $vars;
