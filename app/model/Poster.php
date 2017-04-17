@@ -18,6 +18,7 @@ function __construct($id, $title, $abstract, $authors, $schedule, $tags) {
     
     public function jsonSerialize() {
         $vars = get_object_vars($this);
+        $vars["schedule"] = $this->schedule->jsonSerialize();
         return $vars;
     }
     

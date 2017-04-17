@@ -8,6 +8,11 @@ body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
+td {
+    background-clip: padding-box;
+}
+
 .footer {
   position: absolute;
   bottom: 0;

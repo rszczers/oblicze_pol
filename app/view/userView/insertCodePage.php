@@ -6,10 +6,11 @@
         <title>Oblicze</title>
         <link href="dist/css/bootstrap.min.css" rel="stylesheet">
         <link href="assets/style.css" rel="stylesheet">
+        <link rel="icon" href="assets/favicon.ico">
         <script src="dist/js/jquery-3.2.1.min.js"></script>
     </head>
     <body>
-    <div class="container">
+    <div class="container">        
         <img src="assets/img/oblicze.jpg" class="img-responsive">
         <h2 class="form-signin-heading">Podaj swój kod</h2>
         <label class="sr-only">Hasło</label>

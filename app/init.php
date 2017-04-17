@@ -72,7 +72,6 @@ if (count($userData) == 1) {
                "lecture_id" => $lecture_id,
                "rate" => $value));
         }
-        var_dump($insert);
         $database->insert("LectureRatings", $insert);
         
         $insert = array();
@@ -83,7 +82,9 @@ if (count($userData) == 1) {
                "rate" => $value));
         }
         $database->insert("PosterRatings", $insert);
-        
+        ob_start(); 
+            require("view/userView/thanksView.php"); 
+        ob_end_flush();
     } else if ($isAdmin && $userRequest == ADMIN_PANEL_REQUESTCODE) {               
         ob_start(); 
         require("view/adminPanel/adminViewLayout.php"); 

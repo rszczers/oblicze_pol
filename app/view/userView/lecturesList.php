@@ -9,12 +9,12 @@ class lecturesList {
     public function show() {
 ?>      
         
-        <div class="row">
+        <div class="row" style="margin-bottom: 5px">
             <div class="col-md-10">
                 <h3>Referaty:</h3>
             </div>
-            <div class="col-md-2 text-center">
-                <button type="button" class="btn btn-danger btn-lg" onclick="resetLectures();">Reset</button>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-danger btn-lg pull-right" onclick="resetLectures();">Reset</button>
             </div>
         </div>
 

@@ -8,12 +8,12 @@ class posterList {
     
     public function show() {
 ?>      
-        <div class="row">
+        <div class="row" style="margin-bottom: 5px">
             <div class="col-md-10">
                 <h3>Plakaty:</h3>
             </div>
-            <div class="col-md-2 text-center">
-                <button type="button" class="btn btn-danger btn-lg" onclick="resetPosters();">Reset</button>
+            <div class="col-md-2">
+                <button type="button" class="btn btn-danger btn-lg pull-right" onclick="resetPosters();">Reset</button>
             </div>
         </div>
           <table class="table table-responsive">

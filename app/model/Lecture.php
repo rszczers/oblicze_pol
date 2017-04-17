@@ -7,7 +7,7 @@ class Lecture implements \JsonSerializable {
     private $schedule;
     private $tags;
     
-    function __construct($id, $title, $abstract, $authors, $schedulem, $tags) {
+    function __construct($id, $title, $abstract, $authors, $schedule, $tags) {
         $this->id = $id;
         $this->title = $title;
         $this->abstract = $abstract;
@@ -53,7 +53,8 @@ class Lecture implements \JsonSerializable {
     }
 
     public function jsonSerialize() {
-        $vars = get_object_vars($this);
+        $vars = get_object_vars($this);        
+        $vars["schedule"] = $this->schedule->jsonSerialize();
         return $vars;
     }
 }
