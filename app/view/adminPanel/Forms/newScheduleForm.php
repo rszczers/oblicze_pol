@@ -1,3 +1,11 @@
+<?php
+class newScheduleForm {
+    function __construct() {
+        
+    }
+
+    public function show() {
+?>
 <form class="form-horizontal">
 <fieldset>
 
@@ -41,3 +49,7 @@
 
 </fieldset>
 </form>
+<?php
+    }
+}
+?>

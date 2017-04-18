@@ -13,7 +13,7 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <meta name="description" content="">
     <meta name="author" content="">
-    <meta http-equiv="refresh" content="2; url=<?php echo 'http://'. PAGE_ADDRESS . $userCode; ?>" />
+    <meta http-equiv="refresh" content="2; url=<?php echo 'http://'. PAGE_ADDRESS ?>" />
     <link rel="icon" href="../assets/favicon.ico">
 
     <title>Oblicze</title>
@@ -33,7 +33,7 @@
             <h1 class="cover-heading">Wylogowano</h1>
             <p class="lead"></p>
             <p class="lead">
-              <a href="<?php echo 'http://'. PAGE_ADDRESS . $userCode; ?>" class="btn btn-lg btn-secondary">Strona głosowania</a>
+              <a href="<?php echo 'http://'. PAGE_ADDRESS; ?>" class="btn btn-lg btn-secondary">Strona głosowania</a>
             </p>
           </div>
 

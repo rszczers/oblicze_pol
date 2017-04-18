@@ -10,17 +10,21 @@ require_once 'model/Schedule.php';
 require_once 'service/userViewDAO.php';
 require_once 'service/adminViewDAO.php';
 require_once 'service/mobileAppDAO.php';
+require_once 'service/adminController.php';
 
 require_once 'view/JSONView/JSONView.php';
 require_once 'view/userView/lecturesList.php';
 require_once 'view/userView/posterList.php';
-require_once 'view/adminPanel/newLectureForm.php';
-require_once 'view/adminPanel/newPosterForm.php';
-require_once 'view/adminPanel/removeForm.php';
-require_once 'view/adminPanel/removeBreakForm.php';
-require_once 'view/adminPanel/removeScheduleForm.php';
-require_once 'view/adminPanel/newBreakForm.php';
-
+require_once 'view/adminPanel/Forms/newLectureForm.php';
+require_once 'view/adminPanel/Forms/newPosterForm.php';
+require_once 'view/adminPanel/Forms/newBreakForm.php';
+require_once 'view/adminPanel/Forms/newUserForm.php';
+require_once 'view/adminPanel/Forms/newScheduleForm.php';
+require_once 'view/adminPanel/Forms/removeForm.php';
+require_once 'view/adminPanel/Forms/removeBreakForm.php';
+require_once 'view/adminPanel/Forms/removeScheduleForm.php';
+require_once 'view/adminPanel/Forms/loginForm.php';
+require_once 'view/adminPanel/adminWelcome.php';
 
 use Medoo\Medoo;
 $database = new Medoo([
@@ -35,36 +39,22 @@ $database = new Medoo([
 
 $request = (isset($_GET['request']) ? explode('/', $_GET['request']) : null);
 $userCode = $request[0];
+$userRequest = $request[1];    
+$methodRequest = $request[2];
 
 //Check if user with such code exists
 $userData = $database->select("Users", [
     "user_id",
     "fname",
     "code",
-    "didVote",
-    "isAdmin"], [
+    "didVote"], [
     "code" => $userCode]);
 
 $userID = $userData[0]["user_id"];
 
-//If so, then construct page
 if (count($userData) == 1) {
-    $userRequest = $request[1];    
-    $rawDataRequest = $request[2];
-    $isAdmin = ($userData[0]["isAdmin"] == 1);
     //check if its mobile app json request
-    if ($userRequest == JSON_REQUEST) {
-        $json = new JSONView(new mobileAppDAO($database));
-        if ($rawDataRequest == JSON_REQUEST_LECTURES) {
-            $json->showLectures();
-        }
-        if ($rawDataRequest == JSON_REQUEST_POSTERS) {
-            $json->showPosters();
-        }
-        if ($rawDataRequest == JSON_REQUEST_BREAKS) {
-            $json->showBreaks();
-        } 
-    } else if ($userRequest == 'poll') {
+    if ($userRequest == 'poll') {
         $insert = array();
         foreach ($_POST["lectures"] as $lecture_id => $value) {
             array_push($insert, array(
@@ -85,23 +75,30 @@ if (count($userData) == 1) {
         ob_start(); 
             require("view/userView/thanksView.php"); 
         ob_end_flush();
-    } else if ($isAdmin && $userRequest == ADMIN_PANEL_REQUESTCODE) {               
-        ob_start(); 
-        require("view/adminPanel/adminViewLayout.php"); 
-        ob_end_flush();
-    } else if ($isAdmin && $userRequest == 'signoff') {
-        ob_start(); 
-        require("view/adminPanel/logout.php"); 
-        ob_end_flush();
     } else if (is_null($userRequest)) { 
         ob_start(); 
         require("view/userView/userViewLayout.php"); 
         ob_end_flush();
     }
+} else if ($userCode == JSON_REQUEST) {
+    $json = new JSONView(new mobileAppDAO($database));
+    if ($userRequest == JSON_REQUEST_LECTURES) {
+        $json->showLectures();
+    } else if ($userRequest == JSON_REQUEST_POSTERS) {
+        $json->showPosters();
+    } else if ($userRequest == JSON_REQUEST_BREAKS) {
+        $json->showBreaks();
+    } else {
+        //404
+    }
 } else if (empty($userCode)) { // insert code page
     ob_start(); 
     require("view/userView/insertCodePage.php"); 
     ob_end_flush();
+} else if ($userCode == ADMIN_PANEL_REQUESTCODE) {
+    $admindao = new adminViewDAO($database);
+    $adminController = new adminController($database, $admindao);
+    $adminController->view($userRequest);
 } else { //code invalid
     http_response_code(404);
     include('view/error/404.php');

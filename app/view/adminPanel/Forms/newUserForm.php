@@ -1,4 +1,11 @@
+<?php
+class newUserForm {    
+    function __construct() {
+        
+    }
 
+    function show() {            
+?>
 <form class="form-horizontal">
 <fieldset>
 
@@ -42,3 +49,7 @@
 
 </fieldset>
 </form>
+<?php
+    }
+}
+?>

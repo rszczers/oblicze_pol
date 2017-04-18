@@ -1,8 +1,17 @@
-    <div class="container">
+<?php
+class loginForm {
+    
+    function __construct() {
+        
+    }
+
+    public function show() {
+?>
+<div class="container">
     <div class="col-md-6 col-md-offset-3">
     <img src="http://<?php echo PAGE_ADDRESS;?>assets/img/oblicze.jpg" class="img-responsive">
         <form class="form-signin"
-            action = "<?php echo 'https://' . PAGE_ADDRESS . $userCode . '/' . ADMIN_PANEL_REQUESTCODE; ?>"
+            action = "<?php echo 'https://' . PAGE_ADDRESS . ADMIN_PANEL_REQUESTCODE; ?>"
             method = "post">
         <h2 class="form-signin-heading">Podaj hasło</h2>
         <label for="inputPassword" class="sr-only">Hasło</label>
@@ -16,4 +25,7 @@
       </form>
     </div>
     </div> <!-- /container -->
-  
+<?php
+    }
+}
+?>

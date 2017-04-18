@@ -30,5 +30,4 @@ class mobileAppDAO extends userViewDAO {
         }       
         return $breaks;
     }
-    
 }
