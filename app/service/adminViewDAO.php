@@ -80,9 +80,37 @@ class adminViewDAO {
     
     public function getNonLectureAuthors() {
         $dboutput = $this->database->select("Authors", [
-            "[>]Users" => ["user" => "user_id"]
+            "[<]Users" => ["user" => "user_id"]
         ], [
             "Authors.author_id",
+            "Authors.lecture_id",
+            "Users.fname",
+            "Users.sname",
+            "Users.email"
+        ], [ 
+            "Authors.lecture_id" => null
+        ]);
+        
+        
+        $authors = array();
+        
+        foreach ($dboutput as $author) {
+            array_push($authors, new Author(
+                    $author["author_id"],
+                    $author["fname"], 
+                    $author["sname"],
+                    $author["email"]));
+        }
+        
+        return $authors;
+    }
+    
+    public function getNonLectureUsers() {
+        $dboutput = $this->database->select("Authors", [
+            "[]Users" => ["user" => "user_id"]
+        ], [
+            "Authors.author_id",
+            "Authors.lecture_id",
             "Users.fname",
             "Users.sname",
             "Users.email"
@@ -106,7 +134,7 @@ class adminViewDAO {
     
     public function getNonPosterAuthors() {
         $dboutput = $this->database->select("Authors", [
-            "[>]Users" => ["user" => "user_id"]
+            "[<]Users" => ["user" => "user_id"]
         ], [
             "Authors.author_id",
             "Users.fname",
@@ -293,21 +321,19 @@ class adminViewDAO {
         ]);
     }
 
-    public function addLecture($title, $abstract, $schedule_id, $place, $auhors_id, $tags) {
+    public function addLecture($title, $abstract, $schedule_id, $user_id, $tags) {
         $this->database->insert("Lectures", [
             "title" => $title,
             "abstract" => $abstract,
             "schedule" => $schedule_id,
-            "place" => $place
         ]);
         
         //update Authors table with recent data
         $newLectureID = $this->database->id();
         foreach ($authors_id as $id) {
-            $this->database->update("Authors", [
-                "lecture_id" => $newPosterID
-            ], [
-                "author_id" => $id
+            $this->database->insert("Authors", [
+                "user" => $user_id,
+                "lecture_id" => $newLectureID
             ]);
         }
         
@@ -315,7 +341,7 @@ class adminViewDAO {
             $tags = explode(' ', $tags);
             foreach ($tags as $tag) {
                 $this->database->insert("LectureTags", [
-                    "poster" => $newLectureID,
+                    "lecture" => $newLectureID,
                     "tag" => $tag
                 ]);
             }
@@ -328,11 +354,20 @@ class adminViewDAO {
         ]);        
     }
     
+    public function getUsers() {
+        return $this->database->select("Users", [
+            "user_id",
+            "fname",
+            "sname",
+            "email"
+        ]);
+    }
+    
     public function addUser($fname, $sname, $email) {
         return $this->database->insert("Users", [
             "fname" => $fname,
             "sname" => $sname,
-            "code" => $this->generateCode(),
+            "code" => $this->generateCode($this->readableRandomString(9)),
             "email" => $email
         ]);
     }
@@ -342,17 +377,15 @@ class adminViewDAO {
             'user_id' => $id
         ]);
     }
-
-    public function generateCode() {
-        $newCode = $this->readableRandomString();
-        $userData = $database->select("Users", [
+    
+    private function generateCode($code) {
+        $userData = $this->database->select("Users", [
             "user_id"], [
-            "code" => $newCode]);
-        if (is_null($userData)) {
-            $this->generateCode();
-        } else {
-            return $newCode;
+            "code" => $code]);
+        if (count($userData)>0) {
+            $code = generateCode($this->readableRandomString(9));
         }
+        return $code;
     }
     
     private function readableRandomString($length = 6) {

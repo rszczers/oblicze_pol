@@ -10,7 +10,7 @@ class newLectureForm {
     
     public function show() {
 ?> 
-<form class="form-horizontal">
+<form class="form-horizontal" method="post">
 <fieldset>
 
 <!-- Form Name -->

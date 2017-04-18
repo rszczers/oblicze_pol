@@ -20,11 +20,11 @@
                  aria-haspopup="true"
                  aria-expanded="false">Dodaj <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/addUser">Uczestnika</a></li>
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/addTerm">Termin</a></li>
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/addLecture">Referat</a></li>
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/addPoster">Plakat</a></li>
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/addBreak">Przerwę</a></li>
+                <li><a href="addUser">Uczestnika</a></li>
+                <li><a href="addTerm">Termin</a></li>
+                <li><a href="addLecture">Referat</a></li>
+                <li><a href="addPoster">Plakat</a></li>
+                <li><a href="addBreak">Przerwę</a></li>
               </ul>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle"
@@ -33,17 +33,16 @@
                  aria-haspopup="true"
                  aria-expanded="false">Usuń <span class="caret"></span></a>
               <ul class="dropdown-menu">
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/rmUser">Uczestnika</a></li>
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/rmTerm">Termin</a></li>
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/rmLecture">Referat</a></li>
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/rmPoster">Plakat</a></li>
-                <li><a href="<?php echo ADMIN_PANEL_REQUESTCODE; ?>/rmBreak">Przerwę</a></li>
+                <li><a href="rmUser">Uczestnika</a></li>
+                <li><a href="rmTerm">Termin</a></li>
+                <li><a href="rmEvent">Referat lub plakat</a></li>
+                <li><a href="rmBreak">Przerwę</a></li>
               </ul>
             </li>
             <li><a href="pollResults">Zobacz głosy</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="signoff">Wyloguj</a></li>
+            <li><a href="logout">Wyloguj</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

@@ -23,6 +23,7 @@ require_once 'view/adminPanel/Forms/newScheduleForm.php';
 require_once 'view/adminPanel/Forms/removeForm.php';
 require_once 'view/adminPanel/Forms/removeBreakForm.php';
 require_once 'view/adminPanel/Forms/removeScheduleForm.php';
+require_once 'view/adminPanel/Forms/removeUserForm.php';
 require_once 'view/adminPanel/Forms/loginForm.php';
 require_once 'view/adminPanel/adminWelcome.php';
 
@@ -96,6 +97,9 @@ if (count($userData) == 1) {
     require("view/userView/insertCodePage.php"); 
     ob_end_flush();
 } else if ($userCode == ADMIN_PANEL_REQUESTCODE) {
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
     $admindao = new adminViewDAO($database);
     $adminController = new adminController($database, $admindao);
     $adminController->view($userRequest);

@@ -6,7 +6,7 @@ class newUserForm {
 
     function show() {            
 ?>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post">
 <fieldset>
 
 <!-- Form Name -->
@@ -43,7 +43,7 @@ class newUserForm {
 <div class="form-group">
   <label class="col-md-2 control-label" for="sendNewUserData"></label>
   <div class="col-md-9">
-    <button id="sendNewUserData" name="sendNewUserData" class="btn btn-success">Dodaj</button>
+    <button id="sendNewUserData" class="btn btn-success">Dodaj</button>
   </div>
 </div>
 
