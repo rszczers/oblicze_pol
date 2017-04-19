@@ -7,6 +7,14 @@ class adminViewDAO {
         $this->database = $database;
     }
     
+    public function removeSchedule($idArr) {
+        foreach ($idArr as $id) {
+            $this->database->delete("Schedule", [
+                "schedule_id" => $id
+            ]);
+        }
+    }
+    
     public function getNonUsedSchedules() {
         $dboutput = $this->database->query(
                "SELECT * FROM `Schedule` 
@@ -118,7 +126,7 @@ class adminViewDAO {
         $users = array();
         
         foreach ($dboutput as $user) {
-            array_push($authors, new Users(
+            array_push($users, new User(
                     $user["user_id"],
                     $user["fname"], 
                     $user["sname"],
@@ -139,28 +147,31 @@ class adminViewDAO {
             "Schedule.date",
             "Schedule.place"]);                
         
-        $lectures = array();
         
+        $lectures = array();
         foreach ($dboutput as $lecture) {
-            $relAuth = $this->database->select("Authors", [
-                        "author_id",
-                        "fname",
-                        "sname",
-                        "user",
-                        "email"], [
-                            "lecture_id" => $lecture["lecture_id"]
-                            ]);
-            
             $authors = array();
+            $relAuth = $this->database->query("SELECT * 
+                    FROM `Authors` A
+                    LEFT JOIN `Users` B
+                    ON A.user = B.user_id
+                    WHERE lecture_id = " . 
+                    $lecture["lecture_id"])->fetchAll(PDO::FETCH_ASSOC);
             
             foreach ($relAuth as $author) {
                 array_push($authors, new Author(
                         $author["author_id"],
                         $author["fname"],
                         $author["sname"],
-                        $author["user"],
+                        $author["user_id"],
                         $author["email"]));
             }
+            
+            $tags = $this->database->select("LectureTags", [
+                "tag"
+            ], [
+                "lecture" => $lecture["lecture_id"]
+                ]);   
                     
             array_push($lectures, new Lecture(
                     $lecture["lecture_id"],
@@ -172,7 +183,8 @@ class adminViewDAO {
                         $lecture["start"],
                         $lecture["end"],
                         $lecture["date"],
-                        $lecture["place"])));
+                        $lecture["place"]),
+                    $tags));
         }
         
         return $lectures;
@@ -193,27 +205,29 @@ class adminViewDAO {
                     ]);
         
         $posters = array();
-        
-        foreach ($dboutput as $poster) {
-            $relAuth = $this->database->select("Authors", [
-                    "author_id",
-                    "fname",
-                    "sname",
-                    "user",
-                    "email"], [
-                        "poster_id" => $poster["poster_id"]
-                        ]);
-            
+        foreach ($dboutput as $poster) {         
             $authors = array();
+            $relAuth = $this->database->query("SELECT * 
+                    FROM `Authors` A
+                    LEFT JOIN `Users` B
+                    ON A.user = B.user_id
+                    WHERE poster_id = " . 
+                    $poster["poster_id"])->fetchAll(PDO::FETCH_ASSOC);
             
             foreach ($relAuth as $author) {
                 array_push($authors, new Author(
                         $author["author_id"],
                         $author["fname"],
                         $author["sname"],
-                        $author["user"],
+                        $author["user_id"],
                         $author["email"]));
             }
+            
+            $tags = $this->database->select("PosterTags", [
+                "tag"
+            ], [
+                "poster" => $poster["poster_id"]
+                ]);                        
             
             array_push($posters, new Poster(
                     $poster["poster_id"],
@@ -221,11 +235,12 @@ class adminViewDAO {
                     $poster["abstract"],
                     $authors,
                     new Schedule(
-                        $lecture["schedule_id"],
-                        $lecture["start"],
-                        $lecture["end"],
-                        $lecture["date"],
-                        $lecture["place"])));
+                        $poster["schedule_id"],
+                        $poster["start"],
+                        $poster["end"],
+                        $poster["date"],
+                        $poster["place"]),
+                    $tags));
         }
         return $posters;        
     }
@@ -261,11 +276,11 @@ class adminViewDAO {
         return $breaks;
     }
       
-    public function addPoster($title, $abstract, $schedule_id, $users_id, $tags) {        
+    public function addPoster($title, $abstract, $schedule_id, $user_id, $tags) {        
         $this->database->insert("Posters", [
             "title" => $title,
             "abstract" => $abstract,
-            "schedule" => $schedule_id,
+            "schedule" => $schedule_id
         ]);
         
         //update Authors table with recent data

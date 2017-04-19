@@ -1,16 +1,16 @@
 <?php
 class newPosterForm {
-    private $authors;
+    private $users;
     private $schedules;
     
-    function __construct($authors, $schedules) {
-        $this->authors = $authors;
+    function __construct($users, $schedules) {
+        $this->users = $users;
         $this->schedules = $schedules;
     }
     
     public function show() {
 ?>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post">
 <fieldset>
 
 <!-- Form Name -->
@@ -37,12 +37,13 @@ class newPosterForm {
 <div class="form-group">
   <label class="col-md-2 control-label" for="newPosterAuthors">Autorzy</label>
   <div class="col-md-9">
-    <select id="newPosterAuthors" name="newPosterAuthors" class="form-control" multiple="multiple">
+    <select id="newPosterAuthors" name="newPosterAuthors[]" class="form-control" multiple="multiple">
     <?php 
-    foreach ($this->authors as $author) {
-        $id = $author->getID();
-        $fullname = $author->getFullName();        
-        echo '<option value="' . $id . '">' . $fullname . "</option>";
+    foreach ($this->users as $user) {
+        $id = $user->getID();
+        $fullname = $user->getFullName();
+        $email = $user->getEmail();
+        echo '<option value="' . $id . '">' . $fullname . ", " . $email . "</option>";
     }
     ?>
     </select>
@@ -83,7 +84,7 @@ class newPosterForm {
 <div class="form-group">
   <label class="col-md-2 control-label" for="newPosterButton"></label>
   <div class="col-md-9">
-    <button id="newPosterButton" name="newPosterButton" class="btn btn-primary">Dodaj</button>
+    <button id="newPosterButton" class="btn btn-primary">Dodaj</button>
   </div>
 </div>
 

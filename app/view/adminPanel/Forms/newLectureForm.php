@@ -42,7 +42,8 @@ class newLectureForm {
     foreach ($this->users as $user) {
         $id = $user->getID();
         $fullname = $user->getFullName();        
-        echo '<option value="' . $id . '">' . $id . '. '. $fullname . "</option>";
+        $email = $user->getEmail();
+        echo '<option value="' . $id . '">' . $id . '. '. $fullname . ', ' . $email . "</option>";
     }
     ?>
     </select>

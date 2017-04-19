@@ -56,10 +56,23 @@ class adminController {
                     $this->admindao->getNonLectureUsers(),
                     $this->admindao->getNonUsedSchedules()); 
             } else if ($request == "addPoster") {
+                if (isset($_POST["newPosterTitle"],
+                        $_POST["newPosterAbstract"],
+                        $_POST["newPosterTime"],
+                        $_POST["newPosterAuthors"],
+                        $_POST["newPosterTags"])) {
+                    $this->admindao->addPoster(
+                            $_POST["newPosterTitle"],
+                            $_POST["newPosterAbstract"],
+                            $_POST["newPosterTime"],
+                            $_POST["newPosterAuthors"],
+                            $_POST["newPosterTags"]
+                            );
+                }
                 $data = new newPosterForm(
                     $this->admindao->getNonPosterUsers(),
                     $this->admindao->getSchedules());
-            } else if ($request == "rmEvent") {
+            } else if ($request == "rmEvent") {                
                 $data = new removeForm(
                     $this->admindao->getLectures(),
                     $this->admindao->getPosters());
@@ -69,7 +82,10 @@ class adminController {
                 $data = new removeBreakForm($this->admindao->getBreaks());
             } else if ($request == "addTerm") {
                 $data = new newScheduleForm();
-            } else if ($request == "rmTerm") {            
+            } else if ($request == "rmTerm") {
+                if (isset($_POST["removeSchedulesSelect"])) {
+                    $this->admindao->removeSchedule($_POST["removeSchedulesSelect"]);
+                }
                 $data = new removeScheduleForm($this->admindao->getSchedules());
             } else if ($request == 'logout') {
                 ob_start(); 
