@@ -42,7 +42,7 @@
             <li><a href="pollResults">Zobacz głosy</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <li><a href="logout">Wyloguj</a></li>
+            <li class="active"><a href="logout">Wyloguj</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

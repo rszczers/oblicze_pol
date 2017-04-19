@@ -8,7 +8,7 @@ class removeBreakForm {
 
     public function show() {
 ?>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post">
 <fieldset>
 
 <!-- Form Name -->
@@ -18,7 +18,8 @@ class removeBreakForm {
 <div class="form-group">
   <label class="col-md-2 control-label" for="selectbasic">Przerwy</label>
   <div class="col-md-6">
-    <select id="removeBreakSelection" name="removeBreakSelection" class="form-control">
+    <select id="removeBreakSelection" name="removeBreakSelection[]"
+            class="form-control" multiple="multiple">
       <?php                
         foreach ($this->breaks as $break) {
             $id = $break->getID();
@@ -37,7 +38,7 @@ class removeBreakForm {
 <div class="form-group">
   <label class="col-md-2 control-label" for="removeBreakButton"></label>
   <div class="col-md-9">
-    <button id="removeBreakButton" name="removeBreakButton" class="btn btn-warning">Usuń</button>
+    <button id="removeBreakButton" class="btn btn-warning">Usuń</button>
   </div>
 </div>
 

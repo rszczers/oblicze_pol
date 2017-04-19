@@ -5,6 +5,7 @@ error_reporting(E_ALL);
     
 include 'config.php';
 require 'Medoo.php';
+
 require_once 'model/User.php';
 require_once 'model/Author.php';
 require_once 'model/Lecture.php';
@@ -13,26 +14,6 @@ require_once 'model/Breaktime.php';
 require_once 'model/Schedule.php';
 
 require_once 'service/userViewDAO.php';
-require_once 'service/adminViewDAO.php';
-require_once 'service/mobileAppDAO.php';
-require_once 'service/adminController.php';
-
-require_once 'view/JSONView/JSONView.php';
-require_once 'view/userView/lecturesList.php';
-require_once 'view/userView/posterList.php';
-require_once 'view/adminPanel/Forms/newLectureForm.php';
-require_once 'view/adminPanel/Forms/newPosterForm.php';
-require_once 'view/adminPanel/Forms/newBreakForm.php';
-require_once 'view/adminPanel/Forms/newUserForm.php';
-require_once 'view/adminPanel/Forms/newScheduleForm.php';
-require_once 'view/adminPanel/Forms/newDayForm.php';
-require_once 'view/adminPanel/Forms/removeForm.php';
-require_once 'view/adminPanel/Forms/removeBreakForm.php';
-require_once 'view/adminPanel/Forms/removeScheduleForm.php';
-require_once 'view/adminPanel/Forms/removeUserForm.php';
-require_once 'view/adminPanel/Forms/removeDayForm.php';
-require_once 'view/adminPanel/Forms/loginForm.php';
-require_once 'view/adminPanel/adminWelcome.php';
 
 use Medoo\Medoo;
 $database = new Medoo([
@@ -58,30 +39,38 @@ $userData = $database->select("Users", [
     "didVote"], [
     "code" => $userCode]);
 
-$userID = isset($userData[0]["user_id"]) ? $userData[0]["user_id"] : NULL;
-
 if (count($userData) == 1) {
-    //check if its mobile app json request
-    if ($userRequest == 'poll') {
-        $insert = array();
-        foreach ($_POST["lectures"] as $lecture_id => $value) {
-            array_push($insert, array(
-               "user_id" => $userID,
-               "lecture_id" => $lecture_id,
-               "rate" => $value));
-        }
-        $database->insert("LectureRatings", $insert);
-        
-        $insert = array();
-        foreach ($_POST["posters"] as $poster_id => $value) {
-            array_push($insert, array(
-               "user_id" => $userID,
-               "poster_id" => $poster_id,
-               "rate" => $value));
-        }
-        $database->insert("PosterRatings", $insert);
+    $userID = isset($userData[0]["user_id"]) ? $userData[0]["user_id"] : NULL;
+    $didVote = $userData[0]["didVote"] != 0;
+    if ($didVote) {        
         ob_start(); 
-            require("view/userView/thanksView.php"); 
+        require("view/userView/alreadyVoted.php"); 
+        ob_end_flush();
+    } else if (!$didVote && $userRequest == 'poll') {
+        if (isset($_POST["lectures"], $_POST["posters"])) {
+            $insert = array();
+            foreach ($_POST["lectures"] as $lecture_id => $value) {
+                array_push($insert, array(
+                   "user_id" => $userID,
+                   "lecture_id" => $lecture_id,
+                   "rate" => $value));
+            }
+            $database->insert("LectureRatings", $insert);
+
+            $insert = array();
+            foreach ($_POST["posters"] as $poster_id => $value) {
+                array_push($insert, array(
+                   "user_id" => $userID,
+                   "poster_id" => $poster_id,
+                   "rate" => $value));
+            }
+            $database->insert("PosterRatings", $insert);
+        } 
+        $database->update("Users", ["didVote" => 1], [
+            "user_id" => $userID
+        ]);
+        ob_start(); 
+        require("view/userView/thanksView.php"); 
         ob_end_flush();
     } else if (is_null($userRequest)) { 
         ob_start(); 
@@ -89,6 +78,7 @@ if (count($userData) == 1) {
         ob_end_flush();
     }
 } else if ($userCode == JSON_REQUEST) {
+    require_once 'service/mobileAppDAO.php';
     $json = new JSONView(new mobileAppDAO($database));
     if ($userRequest == JSON_REQUEST_LECTURES) {
         $json->showLectures();
@@ -99,12 +89,26 @@ if (count($userData) == 1) {
     } else {
         //404
     }
+} else if ($userCode == QRCODE_REQUEST) {
+    include 'vendor/phpqrcode/qrlib.php';
+    if (!is_null($userRequest)) {
+        $dboutput = $database->select("Users", 
+                ["code"],
+                ["code" => $userRequest]);        
+        if (count($dboutput) == 1) {
+            QRcode::png($userRequest);
+        } else {
+            echo "Nie ma takiego kodu.";
+        }
+    }
 } else if (empty($userCode)) { // insert code page
     ob_start(); 
     require("view/userView/insertCodePage.php"); 
     ob_end_flush();
 } else if ($userCode == ADMIN_PANEL_REQUESTCODE) {
+    require_once 'service/adminController.php';
     $admindao = new adminViewDAO($database);
+    require_once 'service/adminViewDAO.php';
     $adminController = new adminController($database, $admindao);
     $adminController->view($userRequest);
 } else { //code invalid

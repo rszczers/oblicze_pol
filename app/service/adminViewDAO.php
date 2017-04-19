@@ -16,6 +16,14 @@ class adminViewDAO {
         }
     }
     
+    public function removeBreaks($ids) {
+        foreach ($ids as $id) {
+            $this->database->delete("Breaks", [
+                "break_id" => $id
+            ]);
+        }
+    }
+    
     public function getDays() {
         $dboutput = $this->database->select("Date", [
             "day"
