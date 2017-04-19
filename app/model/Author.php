@@ -1,33 +1,21 @@
 <?php
+class Author extends User {
+    private $authorid;
 
-class Author implements \JsonSerializable {
-    private $id;
-    private $fname;
-    private $sname;
-    private $email;
-
-    function __construct($id, $fname, $sname, $email) {
-        $this->id = $id;
-        $this->fname = $fname;
-        $this->sname = $sname;
-        $this->email = $email;
+    function __construct($aid, $fname, $sname, $uid, $email) {
+        parent::__construct($uid, $fname, $sname, $email);
+        $this->authorid = $aid;
     }
     
-    public function getID() {
-        return $this->id;
+    public function getAID() {
+        return $this->authorid;
     }
     
-    public function getFullName() {
-        return $this->fname . ' ' . $this->sname;
+    public function getUID() {
+        return $this->getID();
     }
     
     public function getEmail() {
         return $this->email;
     }
-
-    public function jsonSerialize() {
-        $vars = get_object_vars($this);
-        return $vars;
-    }
-
 }

@@ -75,7 +75,8 @@ class userViewDAO {
                 array_push($output, new Author(
                         $row["author_id"],
                         $row["fname"],
-                        $row["sname"], 
+                        $row["sname"],
+                        $row["user_id"],
                         $row["email"]));
             }
         }
@@ -89,7 +90,8 @@ class userViewDAO {
                 array_push($output, new Author(
                         $row["author_id"],
                         $row["fname"],
-                        $row["sname"], 
+                        $row["sname"],
+                        $row["user_id"], 
                         $row["email"]));
             }
         }
@@ -102,6 +104,7 @@ class userViewDAO {
             "[>]Lectures" => ["lecture_id" => "lecture_id"],
             "[>]Posters" => ["poster_id" => "poster_id"]], [
                 "Authors.author_id",
+                "Users.user_id",
                 "Users.fname",
                 "Users.sname",
                 "Users.email",

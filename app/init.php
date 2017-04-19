@@ -1,6 +1,11 @@
 <?php
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+    
 include 'config.php';
 require 'Medoo.php';
+require_once 'model/User.php';
 require_once 'model/Author.php';
 require_once 'model/Lecture.php';
 require_once 'model/Poster.php';
@@ -39,9 +44,9 @@ $database = new Medoo([
     );
 
 $request = (isset($_GET['request']) ? explode('/', $_GET['request']) : null);
-$userCode = $request[0];
-$userRequest = $request[1];    
-$methodRequest = $request[2];
+$userCode = isset($request[0]) ? $request[0] : NULL;
+$userRequest = isset($request[1]) ? $request[1] : NULL;    
+$methodRequest = isset($request[2]) ? $request[2] : NULL;
 
 //Check if user with such code exists
 $userData = $database->select("Users", [
@@ -51,7 +56,7 @@ $userData = $database->select("Users", [
     "didVote"], [
     "code" => $userCode]);
 
-$userID = $userData[0]["user_id"];
+$userID = isset($userData[0]["user_id"]) ? $userData[0]["user_id"] : NULL;
 
 if (count($userData) == 1) {
     //check if its mobile app json request
@@ -97,9 +102,6 @@ if (count($userData) == 1) {
     require("view/userView/insertCodePage.php"); 
     ob_end_flush();
 } else if ($userCode == ADMIN_PANEL_REQUESTCODE) {
-    ini_set('display_errors', 1);
-    ini_set('display_startup_errors', 1);
-    error_reporting(E_ALL);
     $admindao = new adminViewDAO($database);
     $adminController = new adminController($database, $admindao);
     $adminController->view($userRequest);

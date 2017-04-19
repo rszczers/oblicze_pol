@@ -55,6 +55,11 @@ class Lecture implements \JsonSerializable {
     public function jsonSerialize() {
         $vars = get_object_vars($this);        
         $vars["schedule"] = $this->schedule->getVars();
+        $jsonAuthors = array();
+        foreach ($this->authors as $author) {
+            array_push($jsonAuthors, $author->jsonSerialize());
+        }
+        $vars["authors"] = $jsonAuthors;
         return $vars;
     }
 }

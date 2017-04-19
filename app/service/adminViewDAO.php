@@ -78,39 +78,11 @@ class adminViewDAO {
         return $schedules;
     }
     
-    public function getNonLectureAuthors() {
-        $dboutput = $this->database->select("Authors", [
-            "[<]Users" => ["user" => "user_id"]
-        ], [
-            "Authors.author_id",
-            "Authors.lecture_id",
-            "Users.fname",
-            "Users.sname",
-            "Users.email"
-        ], [ 
-            "Authors.lecture_id" => null
-        ]);
-        
-        
-        $authors = array();
-        
-        foreach ($dboutput as $author) {
-            array_push($authors, new Author(
-                    $author["author_id"],
-                    $author["fname"], 
-                    $author["sname"],
-                    $author["email"]));
-        }
-        
-        return $authors;
-    }
-    
     public function getNonLectureUsers() {
         $dboutput = $this->database->select("Authors", [
-            "[]Users" => ["user" => "user_id"]
+            "[<]Users" => ["user" => "user_id"]
         ], [
-            "Authors.author_id",
-            "Authors.lecture_id",
+            "Users.user_id",
             "Users.fname",
             "Users.sname",
             "Users.email"
@@ -118,25 +90,24 @@ class adminViewDAO {
             "Authors.lecture_id" => null
         ]);
         
+        $users = array();
         
-        $authors = array();
-        
-        foreach ($dboutput as $author) {
-            array_push($authors, new Author(
-                    $author["author_id"],
-                    $author["fname"], 
-                    $author["sname"],
-                    $author["email"]));
+        foreach ($dboutput as $user) {
+            array_push($users, new User(
+                    $user["user_id"],
+                    $user["fname"], 
+                    $user["sname"],
+                    $user["email"]));
         }
         
-        return $authors;
-    }
+        return $users;
+    }   
     
-    public function getNonPosterAuthors() {
+    public function getNonPosterUsers() {
         $dboutput = $this->database->select("Authors", [
             "[<]Users" => ["user" => "user_id"]
         ], [
-            "Authors.author_id",
+            "Users.user_id",
             "Users.fname",
             "Users.sname",
             "Users.email"
@@ -144,17 +115,17 @@ class adminViewDAO {
             "Authors.poster_id" => null
         ]);
         
-        $authors = array();
+        $users = array();
         
-        foreach ($dboutput as $author) {
-            array_push($authors, new Author(
-                    $author["author_id"],
-                    $author["fname"], 
-                    $author["sname"],
-                    $author["email"]));
+        foreach ($dboutput as $user) {
+            array_push($authors, new Users(
+                    $user["user_id"],
+                    $user["fname"], 
+                    $user["sname"],
+                    $user["email"]));
         }
         
-        return $authors;
+        return $users;
     }
 
     public function getLectures() {
@@ -175,6 +146,7 @@ class adminViewDAO {
                         "author_id",
                         "fname",
                         "sname",
+                        "user",
                         "email"], [
                             "lecture_id" => $lecture["lecture_id"]
                             ]);
@@ -186,6 +158,7 @@ class adminViewDAO {
                         $author["author_id"],
                         $author["fname"],
                         $author["sname"],
+                        $author["user"],
                         $author["email"]));
             }
                     
@@ -226,6 +199,7 @@ class adminViewDAO {
                     "author_id",
                     "fname",
                     "sname",
+                    "user",
                     "email"], [
                         "poster_id" => $poster["poster_id"]
                         ]);
@@ -237,6 +211,7 @@ class adminViewDAO {
                         $author["author_id"],
                         $author["fname"],
                         $author["sname"],
+                        $author["user"],
                         $author["email"]));
             }
             
@@ -330,11 +305,23 @@ class adminViewDAO {
         
         //update Authors table with recent data
         $newLectureID = $this->database->id();
-        foreach ($authors_id as $id) {
-            $this->database->insert("Authors", [
-                "user" => $user_id,
-                "lecture_id" => $newLectureID
-            ]);
+        foreach ($user_id as $id) {
+            $isThereAlready = count($this->database->select("Authors",
+                    ["user"],
+                    ["user" => $user_id])) > 0;
+            var_dump($isThereAlready);
+            if ($isThereAlready) {
+                $this->database->update("Authors", [
+                    "lecture_id" => $newLectureID
+                ], [
+                    "user" => $user_id
+                ]);
+            } else {
+                $this->database->insert("Authors", [
+                    "user" => $user_id,
+                    "lecture_id" => $newLectureID
+                ]);
+            }
         }
         
         if (is_string($tags)) {

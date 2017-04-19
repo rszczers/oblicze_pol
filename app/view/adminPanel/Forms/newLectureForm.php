@@ -1,10 +1,10 @@
 <?php
 class newLectureForm {
-    private $authors;
+    private $users;
     private $schedules;
     
-    function __construct($authors, $schedules) {
-        $this->authors = $authors;
+    function __construct($users, $schedules) {
+        $this->users = $users;
         $this->schedules = $schedules;
     }
     
@@ -35,14 +35,14 @@ class newLectureForm {
 
 <!-- Select Multiple -->
 <div class="form-group">
-  <label class="col-md-2 control-label" for="newLectureAuthors">Autorzy</label>
+  <label class="col-md-2 control-label" for="newLectureAuthors">Uczestnicy</label>
   <div class="col-md-9">
-    <select id="newLectureAuthors" name="newLectureAuthors" class="form-control" multiple="multiple">
+    <select id="newLectureAuthors" name="newLectureAuthors[]" class="form-control" multiple="multiple">
     <?php 
-    foreach ($this->authors as $author) {
-        $id = $author->getID();
-        $fullname = $author->getFullName();        
-        echo '<option value="' . $id . '">' . $fullname . "</option>";
+    foreach ($this->users as $user) {
+        $id = $user->getID();
+        $fullname = $user->getFullName();        
+        echo '<option value="' . $id . '">' . $id . '. '. $fullname . "</option>";
     }
     ?>
     </select>
@@ -84,7 +84,7 @@ class newLectureForm {
 <div class="form-group">
   <label class="col-md-2 control-label" for="newLectureButton"></label>
   <div class="col-md-9">
-    <button id="newLectureButton" name="newLectureButton" class="btn btn-primary">Dodaj</button>
+    <button id="newLectureButton" class="btn btn-primary">Dodaj</button>
   </div>
 </div>
 

@@ -39,13 +39,25 @@ class adminController {
                 }
                 $data = new removeUserForm($this->admindao->getUsers());                
             } else if ($request == "addLecture") {
-                var_dump($_POST);
+                if (isset($_POST["newLectureTitle"],
+                        $_POST["newLectureAbstract"],
+                        $_POST["newLectureTime"],
+                        $_POST["newLectureAuthors"],
+                        $_POST["newLectureTags"])) {
+                    $this->admindao->addLecture(
+                            $_POST["newLectureTitle"],
+                            $_POST["newLectureAbstract"],
+                            $_POST["newLectureTime"],
+                            $_POST["newLectureAuthors"],
+                            $_POST["newLectureTags"]
+                            );
+                }
                 $data = new newLectureForm(
-                    $this->admindao->getNonLectureAuthors(),
+                    $this->admindao->getNonLectureUsers(),
                     $this->admindao->getNonUsedSchedules()); 
             } else if ($request == "addPoster") {
                 $data = new newPosterForm(
-                    $this->admindao->getNonPosterAuthors(),
+                    $this->admindao->getNonPosterUsers(),
                     $this->admindao->getSchedules());
             } else if ($request == "rmEvent") {
                 $data = new removeForm(
