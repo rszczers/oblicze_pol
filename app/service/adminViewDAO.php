@@ -7,6 +7,34 @@ class adminViewDAO {
         $this->database = $database;
     }
     
+    public function getDays() {
+        $dboutput = $this->database->select("Date", [
+            "day"
+        ]);
+        
+       $days = array();
+       
+       foreach ($dboutput as $day) {
+           array_push($days, $day["day"]);
+       }
+       
+       return $days;
+    }
+    
+    public function addDay($day) {       
+        $isNotThere = count($this->database->select("Date", ["day"],
+                ["day" => $day])) == 0;
+        if ($isNotThere) {
+            $this->database->insert("Date", ["day" => $day]);
+        }
+    }
+    
+    public function removeDay($day) {
+        $this->database->delete("Date", [
+            "day" => $day
+        ]);
+    }
+    
     public function removeSchedule($idArr) {
         foreach ($idArr as $id) {
             $this->database->delete("Schedule", [
@@ -37,6 +65,15 @@ class adminViewDAO {
         }
         
         return $schedules;
+    }
+    
+    public function addSchedule($day, $start, $end, $place) {
+        $this->database->insert("Schedule", [
+            "start" => $start,
+            "end" => $end,
+            "date" => $day,
+            "place" => $place
+        ]);
     }
     
     public function getSchedules() {
@@ -137,7 +174,8 @@ class adminViewDAO {
     }
 
     public function getLectures() {
-        $dboutput = $this->database->select("Lectures", ["[>]Schedule" => ["schedule" => "schedule_id"]], [
+        $dboutput = $this->database->select("Lectures", 
+                ["[>]Schedule" => ["schedule" => "schedule_id"]], [
             "Lectures.lecture_id",
             "Lectures.title",
             "Lectures.abstract",

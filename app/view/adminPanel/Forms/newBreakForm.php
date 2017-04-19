@@ -8,7 +8,7 @@ class newBreakForm {
 
     public function show() {
 ?>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post">
 <fieldset>
 
 <!-- Form Name -->
@@ -47,7 +47,7 @@ class newBreakForm {
 <div class="form-group">
   <label class="col-md-2 control-label" for="newBreakButton"></label>
   <div class="col-md-9">
-    <button id="newBreakButton" name="newBreakButton" class="btn btn-primary">Dodaj</button>
+    <button id="newBreakButton" class="btn btn-primary">Dodaj</button>
   </div>
 </div>
 

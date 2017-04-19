@@ -1,23 +1,30 @@
 <?php
 class newScheduleForm {
-    function __construct() {
-        
+    private $days;
+    
+    function __construct($days) {
+        $this->days = $days;
     }
 
     public function show() {
 ?>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post">
 <fieldset>
 
 <!-- Form Name -->
 <legend>Dodawanie terminów</legend>
 
-<!-- Text input-->
+<!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-2 control-label" for="newScheduleDate">Data</label>  
+  <label class="col-md-2 control-label" for="selectbasic">Dzień</label>
   <div class="col-md-9">
-  <input id="newScheduleDate" name="newScheduleDate" type="text" placeholder="data nowego wydarzenia" class="form-control input-md">
-  <span class="help-block">Przykład: 2017/05/23</span>  
+    <select id="selectbasic" name="newScheduleDay" class="form-control">
+      <?php
+      foreach ($this->days as $day) {
+          echo '<option value="' . $day . '">' . $day . '</option>';
+      }
+      ?>
+    </select>
   </div>
 </div>
 
@@ -39,16 +46,51 @@ class newScheduleForm {
   </div>
 </div>
 
+<div class="form-group">
+  <label class="col-md-2 control-label" for="newSchedulePlace">Sala</label>  
+  <div class="col-md-9">
+  <input id="newSchedulePlace" name="newSchedulePlace" type="text" placeholder="" class="form-control input-md" required="">
+  </div>
+</div>
+
 <!-- Button -->
 <div class="form-group">
   <label class="col-md-2 control-label" for="newScheduleButton"></label>
   <div class="col-md-9">
-    <button id="newScheduleButton" name="newScheduleButton" class="btn btn-info">Dodaj</button>
+    <button id="newScheduleButton" class="btn btn-info">Dodaj</button>
   </div>
 </div>
 
 </fieldset>
 </form>
+
+<form class="form-horizontal" method="post">
+<fieldset>
+
+<!-- Form Name -->
+<legend>Dodaj dzień</legend>
+
+<!-- Text input-->
+<div class="form-group">
+  <label class="col-md-2 control-label" for="textinput">Nowy dzień</label>  
+  <div class="col-md-9">
+  <input id="textinput" name="newDay" 
+         type="text" class="form-control input-md" required="">
+  <span class="help-block">Przykład: 2017-05-23</span>  
+  </div>
+</div>
+
+<!-- Button -->
+<div class="form-group">
+  <label class="col-md-2 control-label" for="newDayButton"></label>
+  <div class="col-md-9">
+    <button id="newDayButton" class="btn btn-primary">Dodaj</button>
+  </div>
+</div>
+
+</fieldset>
+</form>
+
 <?php
     }
 }

@@ -81,11 +81,26 @@ class adminController {
                     $this->admindao->getLectures(),
                     $this->admindao->getPosters());
             } else if ($request == "addBreak") {
+                //TODO
                 $data = new newBreakForm($this->admindao->getSchedules());
             } else if ($request == "rmBreak") {
+                //TODO
                 $data = new removeBreakForm($this->admindao->getBreaks());
             } else if ($request == "addTerm") {
-                $data = new newScheduleForm();
+                if (isset($_POST["newDay"])) {
+                    $this->admindao->addDay($_POST["newDay"]);
+                }
+                if (isset($_POST["newScheduleDay"],
+                        $_POST["newScheduleStart"],
+                        $_POST["newScheduleEnd"],
+                        $_POST["newSchedulePlace"])) {
+                    $this->admindao->addSchedule(
+                            $_POST["newScheduleDay"],
+                            $_POST["newScheduleStart"],
+                            $_POST["newScheduleEnd"],
+                            $_POST["newSchedulePlace"]);
+                }
+                $data = new newScheduleForm($this->admindao->getDays());
             } else if ($request == "rmTerm") {
                 if (isset($_POST["removeSchedulesSelect"])) {
                     $this->admindao->removeSchedule($_POST["removeSchedulesSelect"]);
@@ -107,11 +122,14 @@ class adminController {
                 exit();
             } else {
                 if ($request == "login") {
-                    $data = new loginForm();
-                } else {
+                    $data = new loginForm(); 
+                } else if ($request == "error") {
                     http_response_code(404);
                     include(dirname(__DIR__) . '/view/error/404.php');
                     die();
+                } else {
+                    header("Location: " . ADMIN_PANEL_REQUESTCODE . "/error");
+                    exit();
                 }                
             }
         }
