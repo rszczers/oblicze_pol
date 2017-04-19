@@ -7,6 +7,15 @@ class adminViewDAO {
         $this->database = $database;
     }
     
+    public function addBreak($title, $schedule_id) {
+        if (!is_null($this->getScheduleById($schedule_id))) {
+            $this->database->insert("Breaks", [
+                "title" => $title,
+                "schedule" => $schedule_id
+            ]);
+        }
+    }
+    
     public function getDays() {
         $dboutput = $this->database->select("Date", [
             "day"
@@ -35,6 +44,14 @@ class adminViewDAO {
         ]);
     }
     
+    public function removeDays($dayArr) {
+        foreach ($dayArr as $day) {
+            $this->database->delete("Date", [
+                "day" => $day
+            ]);
+        }
+    }
+    
     public function removeSchedule($idArr) {
         foreach ($idArr as $id) {
             $this->database->delete("Schedule", [
@@ -51,6 +68,8 @@ class adminViewDAO {
                     SELECT DISTINCT `schedule` FROM `Lectures`
                     UNION
                     SELECT DISTINCT `schedule` FROM `Posters`
+                    UNION
+                    SELECT DISTINCT `schedule` FROM `Breaks`
                 )")->fetchAll(PDO::FETCH_ASSOC);
         
         $schedules = array();
@@ -74,6 +93,28 @@ class adminViewDAO {
             "date" => $day,
             "place" => $place
         ]);
+    }
+    
+    public function getScheduleById($id) {
+        $dboutput = $this->database->select("Schedule", [
+            "schedule_id",
+            "start",
+            "end",
+            "date",
+            "place"
+        ], [
+            "schedule_id" => $id
+        ]);
+        
+        $output = NULL;
+        if (count($dboutput)==1) {
+            $output = new Schedule($id,
+                    $dboutput[0]["start"],
+                    $dboutput[0]["end"],
+                    $dboutput[0]["date"],
+                    $dboutput[0]["place"]);
+        }
+        return $output;
     }
     
     public function getSchedules() {

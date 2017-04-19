@@ -25,10 +25,12 @@ require_once 'view/adminPanel/Forms/newPosterForm.php';
 require_once 'view/adminPanel/Forms/newBreakForm.php';
 require_once 'view/adminPanel/Forms/newUserForm.php';
 require_once 'view/adminPanel/Forms/newScheduleForm.php';
+require_once 'view/adminPanel/Forms/newDayForm.php';
 require_once 'view/adminPanel/Forms/removeForm.php';
 require_once 'view/adminPanel/Forms/removeBreakForm.php';
 require_once 'view/adminPanel/Forms/removeScheduleForm.php';
 require_once 'view/adminPanel/Forms/removeUserForm.php';
+require_once 'view/adminPanel/Forms/removeDayForm.php';
 require_once 'view/adminPanel/Forms/loginForm.php';
 require_once 'view/adminPanel/adminWelcome.php';
 
