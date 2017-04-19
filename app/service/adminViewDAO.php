@@ -261,24 +261,33 @@ class adminViewDAO {
         return $breaks;
     }
       
-    public function addPoster($title, $abstract, $schedule_id, $place, $auhors_id, $tags) {        
+    public function addPoster($title, $abstract, $schedule_id, $users_id, $tags) {        
         $this->database->insert("Posters", [
             "title" => $title,
             "abstract" => $abstract,
             "schedule" => $schedule_id,
-            "place" => $place
         ]);
         
         //update Authors table with recent data
         $newPosterID = $this->database->id();
-        foreach ($authors_id as $id) {
-            $this->database->update("Authors", [
-                "poster_id" => $newPosterID
-            ], [
-                "author_id" => $id
-            ]);
+        foreach ($user_id as $id) {
+            $isThereAlready = count($this->database->select("Authors",
+                    ["user"],
+                    ["user" => $id])) > 0;
+            if ($isThereAlready) {
+                $this->database->update("Authors", [
+                    "poster_id" => $newPosterID
+                ], [
+                    "user" => $id
+                ]);
+            } else {
+                $this->database->insert("Authors", [
+                    "user" => $id,
+                    "poster_id" => $newPosterID
+                ]);
+            }
         }
-        
+                
         if (is_string($tags)) {
             $tags = explode(' ', $tags);
             foreach ($tags as $tag) {
@@ -308,17 +317,16 @@ class adminViewDAO {
         foreach ($user_id as $id) {
             $isThereAlready = count($this->database->select("Authors",
                     ["user"],
-                    ["user" => $user_id])) > 0;
-            var_dump($isThereAlready);
+                    ["user" => $id])) > 0;
             if ($isThereAlready) {
                 $this->database->update("Authors", [
                     "lecture_id" => $newLectureID
                 ], [
-                    "user" => $user_id
+                    "user" => $id
                 ]);
             } else {
                 $this->database->insert("Authors", [
-                    "user" => $user_id,
+                    "user" => $id,
                     "lecture_id" => $newLectureID
                 ]);
             }

@@ -20,7 +20,7 @@ class adminController {
         } 
         
         include(dirname(__DIR__) . '/view/adminPanel/adminViewHeader.php');
-        if ($_SESSION['valid'] == true) {
+        if (isset($_SESSION['valid']) && $_SESSION['valid'] == true) {
             include(dirname(__DIR__) . '/view/adminPanel/adminViewNavbar.php');                 
             if ($request == "addUser") {
                 if (isset($_POST["newUserEmail"]) &&
@@ -90,7 +90,7 @@ class adminController {
                     $data = new loginForm();
                 } else {
                     http_response_code(404);
-                    include('view/error/404.php');
+                    include(dirname(__DIR__) . '/view/error/404.php');
                     die();
                 }                
             }
@@ -101,4 +101,3 @@ class adminController {
         ob_end_flush();
     }
 }
-
