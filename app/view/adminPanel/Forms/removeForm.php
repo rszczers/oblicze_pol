@@ -11,7 +11,7 @@ class removeForm {
 
     public function show() {
 ?>
-<form class="form-horizontal">
+<form class="form-horizontal" method="post">
     <fieldset>
 
         <!-- Form Name -->
@@ -21,7 +21,7 @@ class removeForm {
         <div class="form-group">
             <label class="col-md-2 control-label" for="lecturesToRemove">Referaty</label>
             <div class="col-md-9">
-                <select id="lecturesToRemove" name="lecturesToRemove" class="form-control" multiple="multiple">
+                <select id="lecturesToRemove" name="lecturesToRemove[]" class="form-control" multiple="multiple">
                     <?php 
                     foreach ($this->lectures as $lecture) {
                         $id = $lecture->getID();
@@ -37,7 +37,7 @@ class removeForm {
         <div class="form-group">
             <label class="col-md-2 control-label" for="postersToRemove">Plakaty</label>
             <div class="col-md-9">
-                <select id="postersToRemove" name="postersToRemove" class="form-control" multiple="multiple">
+                <select id="postersToRemove" name="postersToRemove[]" class="form-control" multiple="multiple">
                     <?php
                     foreach ($this->posters as $poster) {
                         $id = $poster->getID();
@@ -53,7 +53,7 @@ class removeForm {
         <div class="form-group">
             <label class="col-md-2 control-label" for="removeButton"></label>
             <div class="col-md-9">
-                <button id="removeButton" name="removeButton" class="btn btn-danger">Usuń</button>
+                <button id="removeButton" class="btn btn-danger">Usuń</button>
             </div>
         </div>
 

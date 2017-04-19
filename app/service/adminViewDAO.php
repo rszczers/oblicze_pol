@@ -145,8 +145,7 @@ class adminViewDAO {
             "Schedule.start",
             "Schedule.end",
             "Schedule.date",
-            "Schedule.place"]);                
-        
+            "Schedule.place"]);          
         
         $lectures = array();
         foreach ($dboutput as $lecture) {
@@ -314,10 +313,12 @@ class adminViewDAO {
         }
     }
     
-    public function removePoster($id) {
-        return $this->database->delete("Posters", [
-            'poster_id' => $id
-        ]);
+    public function removePoster($idArr) {
+        foreach ($idArr as $id) {
+            $this->database->delete("Posters", [
+                'poster_id' => $id
+            ]);
+        }
     }
 
     public function addLecture($title, $abstract, $schedule_id, $user_id, $tags) {
@@ -358,10 +359,12 @@ class adminViewDAO {
         }
     }
     
-    public function removeLecture($id) {
-        return $this->database->delete("Lectures", [
-            'lecture_id' => $id
-        ]);        
+    public function removeLecture($idArr) {
+        foreach ($idArr as $id) {
+            $this->database->delete("Lectures", [
+                'lecture_id' => $id
+            ]);        
+        }
     }
     
     public function getUsers() {
@@ -382,10 +385,12 @@ class adminViewDAO {
         ]);
     }
     
-    public function removeUser($id) {
-        return $this->database->delete("Users", [
-            'user_id' => $id
-        ]);
+    public function removeUser($idArr) {
+        foreach ($idArr as $id) {
+            $this->database->delete("Users", [
+                'user_id' => $id
+            ]);
+        }
     }
     
     private function generateCode($code) {

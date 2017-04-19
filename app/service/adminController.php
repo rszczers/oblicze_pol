@@ -33,9 +33,7 @@ class adminController {
                 $data = new newUserForm();
             } else if ($request == "rmUser") {                
                 if (isset($_POST["usersToRemove"])) {
-                    foreach ($_POST["usersToRemove"] as $id) {
-                            $this->admindao->removeUser($id);
-                    }
+                    $this->admindao->removeUser($_POST["usersToRemove"]);
                 }
                 $data = new removeUserForm($this->admindao->getUsers());                
             } else if ($request == "addLecture") {
@@ -72,7 +70,13 @@ class adminController {
                 $data = new newPosterForm(
                     $this->admindao->getNonPosterUsers(),
                     $this->admindao->getSchedules());
-            } else if ($request == "rmEvent") {                
+            } else if ($request == "rmEvent") {
+                if (isset($_POST["lecturesToRemove"])) {
+                    $this->admindao->removeLecture($_POST["lecturesToRemove"]);                    
+                }
+                if (isset($_POST["postersToRemove"])) {
+                    $this->admindao->removePoster($_POST["postersToRemove"]);
+                }
                 $data = new removeForm(
                     $this->admindao->getLectures(),
                     $this->admindao->getPosters());
