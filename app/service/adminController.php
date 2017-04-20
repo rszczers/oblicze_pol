@@ -40,7 +40,6 @@ class adminController {
         $content = array();
         include(dirname(__DIR__) . '/view/adminPanel/adminViewHeader.php');
         if (isset($_SESSION['valid']) && $_SESSION['valid'] == true) {
-            
             include(dirname(__DIR__) . '/view/adminPanel/adminViewNavbar.php');                 
             if ($request == "addUser") {
                 if (isset($_POST["newUserEmail"]) &&
@@ -196,10 +195,23 @@ class adminController {
                         $paths = $this->admindao->getQRs($_POST["userQRSelect"]);
                         array_push($content, new qrImages($paths));
                 }
-                
+            } else if ($request == 'pollControl') {
+                if(isset($_POST["pollTurnOffButton"])) {
+                    $this->admindao->turnVotingOff();
+                }
+                if (isset($_POST["pollTurnOnButton"])) {
+                    $this->admindao->turnVotingOn();
+                }
+                ob_start(); 
+                require(dirname(__DIR__) . "/view/adminPanel/pollControl.php"); 
+                ob_end_flush();
             } else if ($request == 'logout') {
                 ob_start(); 
                 require(dirname(__DIR__) . "/view/adminPanel/logout.php"); 
+                ob_end_flush();
+            } else if ($request == 'results') {
+                ob_start(); 
+                require(dirname(__DIR__) . "/view/adminPanel/pollResults.php"); 
                 ob_end_flush();
             } else if ($request == 'main') {
                 array_push($content, new adminWelcome());
@@ -209,7 +221,7 @@ class adminController {
             }
         } else {
             if (is_null($request)) {
-                header("Location: " . ADMIN_PANEL_REQUESTCODE . "/login");
+                header("Location: http://" . PAGE_ADDRESS . ADMIN_PANEL_REQUESTCODE . "/login");
                 exit();
             } else {
                 if ($request == "login") {

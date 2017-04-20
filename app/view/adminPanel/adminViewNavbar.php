@@ -40,7 +40,17 @@
               </ul>
             </li>
             <li><a href="showQR">Kody QR</a></li>
-            <li><a href="pollResults">Zobacz głosy</a></li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle"
+                 data-toggle="dropdown"
+                 role="button"
+                 aria-haspopup="true"
+                 aria-expanded="false">Głosowanie <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li><a href="pollControl">Ustawienia</a></li>
+                <li><a href="results">Zobacz głosy</a></li>
+              </ul>
+            </li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li class="active"><a href="logout">Wyloguj</a></li>

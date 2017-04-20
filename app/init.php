@@ -113,10 +113,7 @@ if (count($userData) == 1) {
     $adminController = new adminController($database, $admindao);
     $adminController->view($userRequest);
 } else if ($userCode == POLL_RESULTS) {
-    require_once 'service/userViewDAO.php';
-    require_once 'view/userView/lectureResults.php';
-    require_once 'view/userView/posterResults.php';
-    
+    require_once 'service/userViewDAO.php';   
     $udao = new userViewDAO($database);
     if ($udao->isVotingOver() == true) {
         ob_start(); 

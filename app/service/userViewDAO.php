@@ -8,7 +8,7 @@ class userViewDAO {
     
     public function isVotingOver() {
         $dboutput = $this->database->select("Config", ["isPollOver"]);    
-        return intval($dboutput[0]) == 1;
+        return intval($dboutput[0]["isPollOver"]) == 1;
     }        
     
     private function getLecturesData() {
