@@ -5,13 +5,13 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="refresh" content="3; url=../" />
         <title>Oblicze</title>
-        <link href="../dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="../assets/style.css" rel="stylesheet">
-        <link rel="icon" href="../assets/favicon.ico">
+        <link href="../public/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="../public/assets/style.css" rel="stylesheet">
+        <link rel="icon" href="../public/assets/favicon.ico">
     </head>
     <body>
     <div class="container">
-        <img src="../assets/img/oblicze.jpg" class="img-responsive">
+        <img src="../public/assets/img/oblicze.jpg" class="img-responsive">
         <div class="row text-center">
             <h1>Dziękujemy,</h1>
             <h3>głos oddano poprawnie.</h1>

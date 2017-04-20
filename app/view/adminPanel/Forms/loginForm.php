@@ -9,7 +9,7 @@ class loginForm {
 ?>
 <div class="container">
     <div class="col-md-6 col-md-offset-3">
-    <img src="http://<?php echo PAGE_ADDRESS;?>assets/img/oblicze.jpg" class="img-responsive">
+    <img src="http://<?php echo PAGE_ADDRESS;?>public/assets/img/oblicze.jpg" class="img-responsive">
         <form class="form-signin"
             action = "<?php echo 'https://' . PAGE_ADDRESS . ADMIN_PANEL_REQUESTCODE; ?>"
             method = "post">

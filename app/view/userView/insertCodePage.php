@@ -4,14 +4,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>Oblicze</title>
-        <link href="dist/css/bootstrap.min.css" rel="stylesheet">
-        <link href="assets/style.css" rel="stylesheet">
-        <link rel="icon" href="assets/favicon.ico">
-        <script src="dist/js/jquery-3.2.1.min.js"></script>
+        <link href="public/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="public/assets/style.css" rel="stylesheet">
+        <link rel="icon" href="public/assets/favicon.ico">
+        <script src="public/dist/js/jquery-3.2.1.min.js"></script>
     </head>
     <body>
     <div class="container">        
-        <img src="assets/img/oblicze.jpg" class="img-responsive">
+        <img src="public/assets/img/oblicze.jpg" class="img-responsive">
         <h2 class="form-signin-heading">Podaj swój kod</h2>
         <label class="sr-only">Hasło</label>
         <input type="text" id="userCodeField" class="form-control input-lg" placeholder="Twój kod" required>        
