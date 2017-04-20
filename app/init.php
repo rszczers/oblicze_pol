@@ -4,7 +4,7 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
     
 include 'config.php';
-require 'Medoo.php';
+require 'vendor/Medoo.php';
 
 require_once 'model/User.php';
 require_once 'model/Author.php';
@@ -12,8 +12,6 @@ require_once 'model/Lecture.php';
 require_once 'model/Poster.php';
 require_once 'model/Breaktime.php';
 require_once 'model/Schedule.php';
-
-require_once 'service/userViewDAO.php';
 
 use Medoo\Medoo;
 $database = new Medoo([
@@ -72,7 +70,10 @@ if (count($userData) == 1) {
         ob_start(); 
         require("view/userView/thanksView.php"); 
         ob_end_flush();
-    } else if (is_null($userRequest)) { 
+    } else if (is_null($userRequest)) {
+        require_once 'view/userView/lecturesList.php';
+        require_once 'view/userView/posterList.php';
+        require_once 'service/userViewDAO.php';
         ob_start(); 
         require("view/userView/userViewLayout.php"); 
         ob_end_flush();
@@ -107,8 +108,8 @@ if (count($userData) == 1) {
     ob_end_flush();
 } else if ($userCode == ADMIN_PANEL_REQUESTCODE) {
     require_once 'service/adminController.php';
-    $admindao = new adminViewDAO($database);
     require_once 'service/adminViewDAO.php';
+    $admindao = new adminViewDAO($database);
     $adminController = new adminController($database, $admindao);
     $adminController->view($userRequest);
 } else { //code invalid

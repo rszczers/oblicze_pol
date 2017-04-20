@@ -39,6 +39,7 @@
                 <li><a href="rmBreak">Przerwę</a></li>
               </ul>
             </li>
+            <li><a href="showQR">Kody QR</a></li>
             <li><a href="pollResults">Zobacz głosy</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">

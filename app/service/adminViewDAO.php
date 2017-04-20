@@ -7,6 +7,44 @@ class adminViewDAO {
         $this->database = $database;
     }
     
+    public function getQRs($idArr) {
+        $paths = array();
+        foreach ($idArr as $id) {            
+            $dboutput = $this->database->select("Users", [
+                "code",
+                "fname",
+                "sname",
+                "email"
+                ], ["user_id" => $id]);
+            $code = $dboutput[0]["code"];
+            $path = dirname(dirname(__DIR__)) . '/public/' . QRCODE_CACHE_FOLDER . '/' . $code . '.png';
+            $pathMin = dirname(dirname(__DIR__)) . '/public/' . QRCODE_CACHE_FOLDER . '/' . $code . '_min.png';
+            if (!file_exists($path)) {
+                QRcode::png($code, $path, QR_ECLEVEL_L, 25); 
+                QRcode::png($code, $pathMin, QR_ECLEVEL_L, 5); 
+                chmod($path, 0755); 
+                chmod($pathMin, 0755); 
+            }
+            $path = 'http://' . PAGE_ADDRESS . 'public/' . QRCODE_CACHE_FOLDER . '/' . $code . '.png';
+            $pathMin = 'http://' . PAGE_ADDRESS . 'public/' . QRCODE_CACHE_FOLDER . '/' . $code . '_min.png';
+            $paths[$code] = array(
+                $path,
+                $pathMin,
+                $dboutput[0]["fname"] . ' ' . $dboutput[0]["sname"],
+                $dboutput[0]["email"]);
+        }
+        return $paths;
+    }
+    
+    public function getCodes($idArr) {
+        $codes = array();
+        foreach ($idArr as $id) {
+            $dboutput = $this->database->select("Users", ["code"], ["user_id" => $id]);
+            array_push($codes, array($id => $dboutput[0]["code"]));
+        }
+        return $codes;
+    }
+    
     public function addBreak($title, $schedule_id) {
         if (!is_null($this->getScheduleById($schedule_id))) {
             $this->database->insert("Breaks", [
@@ -459,6 +497,7 @@ class adminViewDAO {
             "user_id",
             "fname",
             "sname",
+            "code",
             "email"
         ]);
     }

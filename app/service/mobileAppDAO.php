@@ -1,7 +1,5 @@
 <?php
 require_once dirname(__DIR__) . '/view/JSONView/JSONView.php';
-require_once dirname(__DIR__) . '/view/userView/lecturesList.php';
-require_once dirname(__DIR__) . '/view/userView/posterList.php';
 
 class mobileAppDAO extends userViewDAO {
     function __construct($databaseHandler) {

@@ -1,4 +1,5 @@
 <?php
+include dirname(__DIR__) . '/vendor/phpqrcode/qrlib.php';
 require_once dirname(__DIR__) . '/view/adminPanel/Forms/newLectureForm.php';
 require_once dirname(__DIR__) . '/view/adminPanel/Forms/newPosterForm.php';
 require_once dirname(__DIR__) . '/view/adminPanel/Forms/newBreakForm.php';
@@ -11,7 +12,10 @@ require_once dirname(__DIR__) . '/view/adminPanel/Forms/removeScheduleForm.php';
 require_once dirname(__DIR__) . '/view/adminPanel/Forms/removeUserForm.php';
 require_once dirname(__DIR__) . '/view/adminPanel/Forms/removeDayForm.php';
 require_once dirname(__DIR__) . '/view/adminPanel/Forms/loginForm.php';
+require_once dirname(__DIR__) . '/view/adminPanel/Forms/getUserQRForm.php';
 require_once dirname(__DIR__) . '/view/adminPanel/adminWelcome.php';
+require_once dirname(__DIR__) . '/view/adminPanel/qrImages.php';
+
 
 class adminController {
     private $database;
@@ -178,6 +182,21 @@ class adminController {
                 array_push($content,
                         new removeScheduleForm($this->admindao->getSchedules()));
                 array_push($content, new removeDayForm($this->admindao->getDays()));
+            } else if ($request == 'showQR') {
+                
+                $users = $this->admindao->getUsers();
+                $idsToGet = array();
+                foreach ($users as $user) {
+                    array_push($idsToGet, $user["user_id"]);
+                }
+
+                array_push($content, new getUserQRForm($users));
+                
+                if (isset($_POST["qrCodeButton"], $_POST["userQRSelect"])) {
+                        $paths = $this->admindao->getQRs($_POST["userQRSelect"]);
+                        array_push($content, new qrImages($paths));
+                }
+                
             } else if ($request == 'logout') {
                 ob_start(); 
                 require(dirname(__DIR__) . "/view/adminPanel/logout.php"); 
