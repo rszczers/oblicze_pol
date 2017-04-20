@@ -112,6 +112,21 @@ if (count($userData) == 1) {
     $admindao = new adminViewDAO($database);
     $adminController = new adminController($database, $admindao);
     $adminController->view($userRequest);
+} else if ($userCode == POLL_RESULTS) {
+    require_once 'service/userViewDAO.php';
+    require_once 'view/userView/lectureResults.php';
+    require_once 'view/userView/posterResults.php';
+    
+    $udao = new userViewDAO($database);
+    if ($udao->isVotingOver() == true) {
+        ob_start(); 
+        require("view/userView/pollResults.php"); 
+        ob_end_flush();
+    } else {
+        http_response_code(404);
+        include('view/error/404.php');
+        die();
+    }
 } else { //code invalid
     http_response_code(404);
     include('view/error/404.php');

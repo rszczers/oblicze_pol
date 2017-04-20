@@ -6,6 +6,11 @@ class userViewDAO {
         $this->database = $databaseHandler;
     }       
     
+    public function isVotingOver() {
+        $dboutput = $this->database->select("Config", ["isPollOver"]);    
+        return intval($dboutput[0]) == 1;
+    }        
+    
     private function getLecturesData() {
         return $this->database->select("Lectures", 
                 ["[>]Schedule" => ["schedule" => "schedule_id"]], [
@@ -136,6 +141,56 @@ class userViewDAO {
         return $lectures;
     }
     
+    public function getLectureResults($n) {
+        return $this->database->query(
+            "SELECT E.lecture_id, SUM(E.rate) AS `score`, F.title, F.fullname
+            FROM LectureRatings E
+            LEFT JOIN (
+                SELECT A.lecture_id, GROUP_CONCAT(`name` ORDER BY `name` ASC SEPARATOR ', ') AS `fullname`, A.title
+                FROM `Lectures` A
+                LEFT JOIN (
+                    SELECT *
+                    FROM `Authors` C
+                    LEFT JOIN (
+                        SELECT `user_id`, CONCAT(`fname`, ' ', `sname`) as `name`
+                        FROM  `Users`
+                        ) D
+                        ON C.user = D.user_id
+                    ) B
+                ON A.lecture_id = B.lecture_id
+                GROUP BY A.lecture_id
+                ) F
+            ON E.lecture_id = F.lecture_id
+            GROUP BY E.lecture_id
+            ORDER BY `score` DESC
+            LIMIT ". $n)->fetchAll(PDO::FETCH_ASSOC);;        
+    }
+    
+        public function getPosterResults($n) {
+        return $this->database->query(
+            "SELECT E.poster_id, SUM(E.rate) AS `score`, F.title, F.fullname
+            FROM PosterRatings E
+            LEFT JOIN (
+                SELECT A.poster_id, GROUP_CONCAT(`name` ORDER BY `name` ASC SEPARATOR ', ') AS `fullname`, A.title
+                FROM `Posters` A
+                LEFT JOIN (
+                    SELECT *
+                    FROM `Authors` C
+                    LEFT JOIN (
+                        SELECT `user_id`, CONCAT(`fname`, ' ', `sname`) as `name`
+                        FROM  `Users`
+                        ) D
+                        ON C.user = D.user_id
+                    ) B
+                ON A.poster_id = B.poster_id
+                GROUP BY A.poster_id
+                ) F
+            ON E.poster_id = F.poster_id
+            GROUP BY E.poster_id
+            ORDER BY `score` DESC
+            LIMIT ". $n)->fetchAll(PDO::FETCH_ASSOC);;        
+    }
+       
     public function getPosters() {
         $data = $this->getPostersData();
         $tags = $this->getPosterTagsData();
