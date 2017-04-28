@@ -231,7 +231,7 @@ class adminController {
                     include(dirname(__DIR__) . '/view/error/404.php');
                     die();
                 } else {
-                    header("Location: " . ADMIN_PANEL_REQUESTCODE . "/error");
+                    header("Location: https://www.youtube.com/watch?v=dQw4w9WgXcQ");
                     exit();
                 }                
             }
