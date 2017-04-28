@@ -207,7 +207,7 @@ class adminController {
                 ob_end_flush();
             } else if ($request == 'logout') {
                 ob_start(); 
-                require(dirname(__DIR__) . "/view/adminPanel/logout.php"); 
+                include(dirname(__DIR__) . "/view/adminPanel/logout.php"); 
                 ob_end_flush();
             } else if ($request == 'results') {
                 ob_start(); 
@@ -235,8 +235,7 @@ class adminController {
                     exit();
                 }                
             }
-        }
-        
+        }       
         ob_start(); 
         require(dirname(__DIR__) . '/view/adminPanel/adminViewLayout.php'); 
         ob_end_flush();
