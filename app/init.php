@@ -6,6 +6,7 @@ error_reporting(E_ALL);
 include 'config.php';
 require 'vendor/Medoo.php';
 
+require_once 'service/userViewDAO.php';
 require_once 'model/User.php';
 require_once 'model/Author.php';
 require_once 'model/Lecture.php';
@@ -37,7 +38,13 @@ $userData = $database->select("Users", [
     "didVote"], [
     "code" => $userCode]);
 
-if (count($userData) == 1) {
+$udao = new userViewDAO($database);
+
+if ($udao->isVotingOver() == true && is_null($request)) {
+    ob_start(); 
+    require("view/userView/pollResults.php"); 
+    ob_end_flush();
+} else if (count($userData) == 1) {
     $userID = isset($userData[0]["user_id"]) ? $userData[0]["user_id"] : NULL;
     $didVote = $userData[0]["didVote"] != 0;
     if ($didVote) {        
@@ -73,12 +80,12 @@ if (count($userData) == 1) {
     } else if (is_null($userRequest)) {
         require_once 'view/userView/lecturesList.php';
         require_once 'view/userView/posterList.php';
-        require_once 'service/userViewDAO.php';
         ob_start(); 
         require("view/userView/userViewLayout.php"); 
         ob_end_flush();
     }
 } else if ($userCode == JSON_REQUEST) {
+    require_once 'service/userViewDAO.php';   
     require_once 'service/mobileAppDAO.php';
     $json = new JSONView(new mobileAppDAO($database));
     if ($userRequest == JSON_REQUEST_LECTURES) {
@@ -113,8 +120,6 @@ if (count($userData) == 1) {
     $adminController = new adminController($database, $admindao);
     $adminController->view($userRequest);
 } else if ($userCode == POLL_RESULTS) {
-    require_once 'service/userViewDAO.php';   
-    $udao = new userViewDAO($database);
     if ($udao->isVotingOver() == true) {
         ob_start(); 
         require("view/userView/pollResults.php"); 

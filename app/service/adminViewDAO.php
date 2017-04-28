@@ -89,11 +89,12 @@ class adminViewDAO {
                 "email"
                 ], ["user_id" => $id]);
             $code = $dboutput[0]["code"];
+            $content = 'http://' . PAGE_ADDRESS . $code;
             $path = dirname(dirname(__DIR__)) . '/public/' . QRCODE_CACHE_FOLDER . '/' . $code . '.png';
             $pathMin = dirname(dirname(__DIR__)) . '/public/' . QRCODE_CACHE_FOLDER . '/' . $code . '_min.png';
             if (!file_exists($path)) {
-                QRcode::png($code, $path, QR_ECLEVEL_L, 25); 
-                QRcode::png($code, $pathMin, QR_ECLEVEL_L, 5); 
+                QRcode::png($content, $path, QR_ECLEVEL_L, 25); 
+                QRcode::png($content, $pathMin, QR_ECLEVEL_L, 5); 
                 chmod($path, 0755); 
                 chmod($pathMin, 0755); 
             }

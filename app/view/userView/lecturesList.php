@@ -7,93 +7,95 @@ class lecturesList {
     }
     
     public function show() {
-?>      
-        
+?>  
+    <div class="container">
         <div class="row" style="margin-bottom: 5px">
-            <div class="col-md-10">
+            <div class="col-xs-9 col-md-9">
                 <h3>Referaty:</h3>
             </div>
-            <div class="col-md-2">
+            <div class="col-xs-3 col-md-3">
                 <button type="button" class="btn btn-danger btn-lg pull-right" onclick="resetLectures();">Reset</button>
             </div>
         </div>
-
-          
-          <table class="table table-responsive">
-            <thead>
-              <tr>
-                <th class="col-md-1">#</th>
-                <th>Tytuł</th>
-                <th class="text-center col-md-2">Ocena</th>
-              </tr>
-            </thead>
-            <tbody>
+<!--        <div class="row">
+            <div class="col-xs-1 col-md-1"><h4>#</h4></div>
+            <div class="col-xs-8 col-md-8"><h4>Tytuł</h4></div>
+            <div class="col-xs-3 col-md-3 text-center"><h4>Ocena</h4></div>
+        </div>-->
+        <hr>
 <?php                
         $i = 1;
         foreach ($this->lectures as $lecture) { 
-            $authors = $lecture->getAuthors();            
+            $authors = $lecture->getAuthors();
             $title = $lecture->getTitle();
-            $tags = $lecture->getTags();
-            echo
-               '<tr>
-                <td rowspan=3 class="col-md-1">' . $i . '</td>
-                <td class="lead">' .
-                $title .
-                '</td><td rowspan=3 style="text-align:center" class="col-md-2">';
-?>          
-            <div class="radio">
-                <label><input id="<?php echo 'r'. ($i*3+2);?>"
-                              type="radio" 
-                              name="lectures[<?php echo $lecture->getID(); ?>]" 
-                              onclick="hideLecture(<?php echo $i*3+2;?>);"
-                              value="3">3 pkt</label>
+            $tags = $lecture->getTags();     
+?>
+            <div class="row bg-success">
+                <div class="col-xs-1 col-md-1 lead" style="padding-top: 1em"><?php echo $i; ?>.</div>
+                <div class="col-xs-11 col-md-11 lead"  style="padding-top: 1em">
+                    <?php echo $title ?>
+                </div>
             </div>
-            <div class="radio">
-                <label><input id="<?php echo 'r'. ($i*3+1);?>" 
-                              type="radio" 
-                              name="lectures[<?php echo $lecture->getID(); ?>]" 
-                              onclick="hideLecture(<?php echo $i*3+1;?>);"
-                              value="2">2 pkt</label>
+            <div class="row">
+                <div class="col-xs-12 col-md-12 text-center" style="margin-top: 1.5em; margin-bottom: 1.5em; padding-top: 0.25em; padding-bottom: 0.25em; min-height: 2em;">
+                    <label class="radio-inline"><input 
+                            id="<?php echo 'r'. ($i*3+2);?>"
+                            type="radio" 
+                            name="lectures[<?php echo $lecture->getID(); ?>]" 
+                            onclick="hideLecture(<?php echo $i*3+2;?>);"
+                            value="3">3 pkt</label>
+                    <label class="radio-inline"><input 
+                            id="<?php echo 'r'. ($i*3+1);?>" 
+                            type="radio" 
+                            name="lectures[<?php echo $lecture->getID(); ?>]" 
+                            onclick="hideLecture(<?php echo $i*3+1;?>);"
+                            value="2">2 pkt</label>
+                    <label class="radio-inline"><input 
+                            id="<?php echo 'r'. ($i*3);?>" 
+                            type="radio" 
+                            name="lectures[<?php echo $lecture->getID(); ?>]" 
+                            onclick="hideLecture(<?php echo $i*3;?>);"
+                            value="1">1 pkt</label>
+                </div>
             </div>
-            <div class="radio">
-                <label><input 
-                        id="<?php echo 'r'. ($i*3);?>" 
-                        type="radio" 
-                        name="lectures[<?php echo $lecture->getID(); ?>]" 
-                        onclick="hideLecture(<?php echo $i*3;?>);"
-                        value="1">1 pkt</label>
-            </div>
-            </td></tr>
-            <tr><td>
 <?php       
+            $form = 'Autor:';
+            $authOutput = 'Brak autora';
             if (count($authors) > 1) { // Jeśli jest więcej niż jeden autor:
-                $output = '';
+                $form = 'Autorzy:';
+                $authOutput = '';
                 foreach ($authors as $author) {
-                    $output = $output . $author->getFullName() . ', '; 
+                    $authOutput = $authOutput . $author->getFullName() . ', '; 
                 }
-                echo substr($output, 0, -2); // Wywal odstęp po ostatnim autorze                
+                $authOutput = substr($authOutput, 0, -2); // Wywal odstęp po ostatnim autorze                
             } else if (count($authors) == 1) {                
-                echo $authors[0]->getFullName();
-            } else {
-                echo 'Brak autora';
+                $authOutput = $authors[0]->getFullName();
             }
-            
-            echo '</td></tr>'
-                    . '<tr><td class="small"><p>';
-            
+?>
+            <div class="row" style="margin-bottom: 0.5em">
+                <div class="col-xs-11 col-md-2"><?php echo $form;?></div>
+                <div class="col-xs-11 col-md-10"><?php echo $authOutput; ?></div>
+            </div>
+<?php       
+            $tagsOutput = '<code>Brak tagów</code>';
             if (count($tags) > 0) {
-                $output = '';
+                $tagsOutput = '';
                 foreach ($tags as $tag) {
-                    $output = $output . '<code>'. $tag . '</code>, ';
+                    $tagsOutput = $tagsOutput . '<code>'. $tag . '</code>, ';
                 }
-                $output = substr($output, 0, -2);
-                echo $output;
-            } else {
-                echo 'Brak tagów';
+                $tagsOutput = substr($tagsOutput, 0, -2);
             }
-            echo '</p></td></tr>';
             $i++;
+?>
+            <div class="row small" style="margin-bottom: 2em;">
+                <div class="col-xs-12 col-md-2">Tagi:</div>
+                <div class=" col-xs-12 col-md-10"><?php echo $tagsOutput; ?></div>
+            </div>
+            <hr>
+<?php
         }
-        echo '</tbody></table>';
+?>
+    </div>
+<?php
     }
 }

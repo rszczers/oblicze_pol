@@ -16,11 +16,10 @@ class mobileAppDAO extends userViewDAO {
             "Schedule.end",
             "Schedule.date",
             "Schedule.place"]);
-        
         $breaks = array();
         foreach ($breaksData as $b) {
             $newBreak = new Breaktime(
-                    $b["id"],
+                    $b["break_id"],
                     $b["title"],
                     new Schedule(
                             $b["schedule_id"],
