@@ -134,8 +134,8 @@ class adminViewDAO {
                 QRcode::png($content, $pathMin, QR_ECLEVEL_L, 5); 
                 chmod($path, 0755); 
                 chmod($pathMin, 0755); 
+                $this->addRawCodeToImage($code, $path);
             }
-            $this->addRawCodeToImage($code, $path);
             
             $path = 'http://' . PAGE_ADDRESS . 'public/' . QRCODE_CACHE_FOLDER . '/' . $code . '.png';
             $pathMin = 'http://' . PAGE_ADDRESS . 'public/' . QRCODE_CACHE_FOLDER . '/' . $code . '_min.png';
