@@ -24,10 +24,10 @@
  <!-- Begin page content -->
     <div class="container">
         <div class="page-header">          
-        <h1>Witaj, <?php echo $userData[0]['fname'];?></h1>
+        <h1>Cześć!</h1>
         </div>
         <div class="row" style="padding-left: 1em; padding-right: 1em; max-width:35em">
-                <p>Cześć, jestem ankietą konferencji θβℓιcℤε!</p> 
+                <p>Jestem ankietą konferencji θβℓιcℤε.</p> 
                 <p>Poniżej spośród wszystkich 
                    plakatów i referatów możesz wybrać po trzy ulubione i 
                    przyporządkować im trzy, dwa lub jeden punkt, wedle uznania. </p>

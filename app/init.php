@@ -33,7 +33,6 @@ $methodRequest = isset($request[2]) ? $request[2] : NULL;
 //Check if user with such code exists
 $userData = $database->select("Users", [
     "user_id",
-    "fname",
     "code",
     "didVote"], [
     "code" => $userCode]);

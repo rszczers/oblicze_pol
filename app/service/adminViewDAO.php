@@ -104,6 +104,18 @@ class adminViewDAO {
             LIMIT ". $n)->fetchAll(PDO::FETCH_ASSOC);;        
     }
     
+    private function addRawCodeToImage($code, $path) {
+        $im = imagecreatefrompng($path);
+        $font = dirname(dirname(__DIR__)) . '/public/assets/font.ttf';
+        $text = $code;
+        $color = imagecolorallocate($im, 0, 0, 0);
+
+        // First we create our stamp image manually from GD
+        imagettftext($im, 72, 0, 240, 85, $color, $font, $text);
+        imagepng($im, $path);
+        imagedestroy($im);
+        }
+    
     public function getQRs($idArr) {
         $paths = array();
         foreach ($idArr as $id) {            
@@ -123,6 +135,8 @@ class adminViewDAO {
                 chmod($path, 0755); 
                 chmod($pathMin, 0755); 
             }
+            $this->addRawCodeToImage($code, $path);
+            
             $path = 'http://' . PAGE_ADDRESS . 'public/' . QRCODE_CACHE_FOLDER . '/' . $code . '.png';
             $pathMin = 'http://' . PAGE_ADDRESS . 'public/' . QRCODE_CACHE_FOLDER . '/' . $code . '_min.png';
             $paths[$code] = array(
