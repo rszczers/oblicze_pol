@@ -85,7 +85,6 @@ if ($udao->isVotingOver() == true && is_null($request)) {
         ob_end_flush();
     }
 } else if ($userCode == JSON_REQUEST) {
-    require_once 'service/userViewDAO.php';   
     require_once 'service/mobileAppDAO.php';
     $json = new JSONView(new mobileAppDAO($database));
     if ($userRequest == JSON_REQUEST_LECTURES) {
@@ -94,6 +93,8 @@ if ($udao->isVotingOver() == true && is_null($request)) {
         $json->showPosters();
     } else if ($userRequest == JSON_REQUEST_BREAKS) {
         $json->showBreaks();
+    } else if ($userRequest == MOBILE_RUNNING_CHECK) {
+        $json->showAccess();
     } else {
         //404
     }
@@ -104,7 +105,7 @@ if ($udao->isVotingOver() == true && is_null($request)) {
                 ["code"],
                 ["code" => $userRequest]);        
         if (count($dboutput) == 1) {
-            QRcode::png($userRequest);
+            QRcode::png("http://" . PAGE_ADDRESS . $userRequest);
         } else {
             echo "Nie ma takiego kodu.";
         }

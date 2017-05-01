@@ -32,4 +32,8 @@ class JSONView {
         }
         print_r(json_encode($json, JSON_PRETTY_PRINT));
     }
+    
+    public function showAccess() {
+        echo $this->mac->isRunning();
+    }
 }

@@ -15,26 +15,14 @@ class userViewDAO {
         return $this->database->select("Lectures", 
                 ["[>]Schedule" => ["schedule" => "schedule_id"]], [
             "Lectures.lecture_id",
-            "Lectures.title",
-            "Lectures.abstract",
-            "Schedule.schedule_id",
-            "Schedule.start",
-            "Schedule.end",
-            "Schedule.date",
-            "Schedule.place"]);
+            "Lectures.title"]);
     }
     
     private function getPostersData() {
         return $this->database->select("Posters", 
                 ["[>]Schedule" => ["schedule" => "schedule_id"]], [
             "Posters.poster_id",
-            "Posters.title",
-            "Posters.abstract",
-            "Schedule.schedule_id",
-            "Schedule.start",
-            "Schedule.end",
-            "Schedule.date",
-            "Schedule.place"]);
+            "Posters.title"]);
     }
     
     private function getLectureTagsData() {
@@ -81,8 +69,8 @@ class userViewDAO {
                         $row["author_id"],
                         $row["fname"],
                         $row["sname"],
-                        $row["user_id"],
-                        $row["email"]));
+                        NULL,
+                        NULL));
             }
         }
         return $output;
@@ -96,8 +84,8 @@ class userViewDAO {
                         $row["author_id"],
                         $row["fname"],
                         $row["sname"],
-                        $row["user_id"], 
-                        $row["email"]));
+                        NULL, 
+                        NULL));
             }
         }
         return $output;
@@ -112,7 +100,6 @@ class userViewDAO {
                 "Users.user_id",
                 "Users.fname",
                 "Users.sname",
-                "Users.email",
                 "Lectures.lecture_id",
                 "Posters.poster_id"
             ]);
@@ -128,14 +115,9 @@ class userViewDAO {
             $lectures[$lecture["lecture_id"]] = new Lecture(
                 $lecture["lecture_id"],
                 $lecture["title"],
-                $lecture["abstract"],
+                NULL,
                 $this->matchLectureAuthors($authors, $lecture["lecture_id"]),
-                new Schedule(
-                    $lecture["schedule_id"],
-                    $lecture["start"],
-                    $lecture["end"],
-                    $lecture["date"],
-                    $lecture["place"]),
+                NULL,
                 $this->matchLectureTags($tags, $lecture["lecture_id"]));
         }
         return $lectures;
@@ -201,21 +183,11 @@ class userViewDAO {
             $posters[$poster["poster_id"]] = new Poster(
                 $poster['poster_id'],
                 $poster["title"],
-                $poster["abstract"],
+                NULL,
                 $this->matchPosterAuthors($authors, $poster["poster_id"]),
-                new Schedule(
-                        $poster["schedule_id"],
-                        $poster["start"],
-                        $poster["end"],
-                        $poster["date"],
-                        $poster["place"]),
+                NULL,
                 $this->matchPosterTags($tags, $poster["poster_id"]));
         }        
         return $posters;
-    }
-    
-    public function vote($user_id, $lectureIdArray, $posterIdArray,
-            $lectureVoteValuesArray, $posterVoteValuesArray) {
-        
     }
 }

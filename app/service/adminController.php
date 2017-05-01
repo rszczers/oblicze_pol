@@ -202,6 +202,18 @@ class adminController {
                 if (isset($_POST["pollTurnOnButton"])) {
                     $this->admindao->turnVotingOn();
                 }
+                if (isset($_POST["mobileTemporaryOff"])) {
+                    $this->admindao->mobileTemporaryOff();
+                }
+                if (isset($_POST["mobileOff"])) {
+                    $this->admindao->mobileOff();
+                }
+                if (isset($_POST["mobileOn"])) {
+                    $this->admindao->mobileOn();
+                }
+                $pollStatus = $this->admindao->getPollStatus();
+                $mobileStatus = $this->admindao->getMobileAccess();
+                
                 ob_start(); 
                 require(dirname(__DIR__) . "/view/adminPanel/pollControl.php"); 
                 ob_end_flush();

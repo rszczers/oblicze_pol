@@ -7,6 +7,31 @@ class adminViewDAO {
         $this->database = $database;
     }
     
+    public function getMobileAccess() {
+        $dboutput = $this->database->Select("Config", ["isRunning"]);
+        return $dboutput[0]["isRunning"];
+    }
+    
+    public function getPollStatus() {
+        $dboutput = $this->database->Select("Config", ["isPollOver"]);
+        return $dboutput[0]["isPollOver"];
+    }
+       
+    public function mobileOn() {
+        $this->database->update("Config",
+            ["isRunning" => 1]);
+    }
+    
+    public function mobileOff() {
+        $this->database->update("Config",
+            ["isRunning" => 0]);
+    }
+
+    public function mobileTemporaryOff() {
+        $this->database->update("Config",
+            ["isRunning" => 2]);
+    }
+
     public function turnVotingOn() {
         $this->database->update("Config", ["isPollOver" => 0],
                 ["isPollOver" => 1]);
