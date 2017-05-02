@@ -149,7 +149,7 @@ class adminController {
                         new newScheduleForm($this->admindao->getDays()));
             } else if ($request == "rmBreak") {
                 if (isset($_POST["removeBreakSelection"])) {
-                    $this->database->removeBreak($_POST["removeBreakSelection"]);
+                    $this->admindao->removeBreaks($_POST["removeBreakSelection"]);
                 }
                 array_push($content,
                         new removeBreakForm($this->admindao->getBreaks()));
