@@ -104,14 +104,16 @@ class adminViewDAO {
             LIMIT ". $n)->fetchAll(PDO::FETCH_ASSOC);;        
     }
     
-    private function addRawCodeToImage($code, $path) {
+    private function addRawCodeToImage($code, $path, $fname, $sname, $id) {
         $im = imagecreatefrompng($path);
         $font = dirname(dirname(__DIR__)) . '/public/assets/font.ttf';
         $text = $code;
+        $text2 = $id . '. ' . $sname . ' ' . $fname;
         $color = imagecolorallocate($im, 0, 0, 0);
 
         // First we create our stamp image manually from GD
-        imagettftext($im, 72, 0, 240, 85, $color, $font, $text);
+        imagettftext($im, 80, 0, 260, 85, $color, $font, $text);
+        imagettftext($im, 24, 0, 50,  970, $color, $font, $text2);
         imagepng($im, $path);
         imagedestroy($im);
         }
@@ -120,6 +122,7 @@ class adminViewDAO {
         $paths = array();
         foreach ($idArr as $id) {            
             $dboutput = $this->database->select("Users", [
+                "user_id",
                 "code",
                 "fname",
                 "sname",
@@ -134,7 +137,7 @@ class adminViewDAO {
                 QRcode::png($content, $pathMin, QR_ECLEVEL_L, 5); 
                 chmod($path, 0755); 
                 chmod($pathMin, 0755); 
-                $this->addRawCodeToImage($code, $path);
+                $this->addRawCodeToImage($code, $path, $dboutput[0]['fname'], $dboutput[0]['sname'], $dboutput[0]['user_id']);
             }
             
             $path = 'http://' . PAGE_ADDRESS . 'public/' . QRCODE_CACHE_FOLDER . '/' . $code . '.png';

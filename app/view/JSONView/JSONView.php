@@ -24,6 +24,11 @@ class JSONView {
         print_r(json_encode($json, JSON_PRETTY_PRINT));
     }
     
+    public function showSpecialLectures() {
+        $lectures = $this->mac->getSpecialLectures();
+        print_r(json_encode($lectures, JSON_PRETTY_PRINT));
+    }
+    
     public function showPosters() {
         $posters = $this->mac->getPosters();
         $json = array();

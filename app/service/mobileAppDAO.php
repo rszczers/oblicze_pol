@@ -38,6 +38,39 @@ class mobileAppDAO {
         }       
         return $breaks;
     }
+    
+    public function getSpecialLectures() {
+        $dboutput = $this->database->select("SpecialLectures", 
+                ["[>]Schedule" => ["schedule" => "schedule_id"]], [
+            "SpecialLectures.lecture_id",
+            "SpecialLectures.title",
+            "SpecialLectures.authors",
+            "Schedule.schedule_id",
+            "Schedule.start",
+            "Schedule.end",
+            "Schedule.date",
+            "Schedule.place"]);
+        
+        $output = array();
+        
+        foreach ($dboutput as $special) {
+            $sched = new Schedule(
+                    $special["schedule_id"],
+                    $special["start"],
+                    $special["end"],
+                    $special["date"],
+                    $special["place"]);
+            
+            array_push($output, array(
+                "lecture_id" => $special["lecture_id"],
+                "title" => $special["title"],
+                "authors" => $special["authors"],
+                "schedule" => $sched->getVars()
+            ));
+        }
+        
+        return $output;
+    }
       
     private function getLecturesData() {
         return $this->database->select("Lectures", 
@@ -145,7 +178,7 @@ class mobileAppDAO {
                 "Posters.poster_id"
             ]);
     }
-    
+        
     public function getLectures() {
         $data = $this->getLecturesData();
         $tags = $this->getLectureTagsData();

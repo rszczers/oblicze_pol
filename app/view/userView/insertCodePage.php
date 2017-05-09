@@ -14,7 +14,7 @@
         <img src="public/assets/img/oblicze.jpg" class="img-responsive">
         <h2 class="form-signin-heading">Podaj swój kod</h2>
         <label class="sr-only">Hasło</label>
-        <input type="text" id="userCodeField" class="form-control input-lg" placeholder="Twój kod" required>        
+        <input type="password" id="userCodeField" class="form-control input-lg" placeholder="Twój kod" required>        
         <button id="codeButton" class="btn btn-lg btn-primary btn-block" onclick="redir()">Wprowadź</button>
     </div> 
         

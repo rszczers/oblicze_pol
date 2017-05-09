@@ -10,7 +10,7 @@
     <link rel="icon" href="http://<?php echo PAGE_ADDRESS; ?>public/assets/favicon.ico">
 
     <title>Oblicze</title>
-    <link href="https://<?php echo PAGE_ADDRESS; ?>public/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://<?php echo PAGE_ADDRESS; ?>public/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .error-template {padding: 40px 15px;text-align: center;}
         .error-actions {margin-top:3em;margin-bottom:3em;}

@@ -92,6 +92,8 @@ if ($udao->isVotingOver() == true && is_null($request)) {
         $json->showPosters();
     } else if ($userRequest == JSON_REQUEST_BREAKS) {
         $json->showBreaks();
+    } else if ($userRequest == JSON_REQUEST_SPECIAL) {
+        $json->showSpecialLectures();
     } else if ($userRequest == MOBILE_RUNNING_CHECK) {
         $json->showAccess();
     } else {
