@@ -113,7 +113,7 @@ class adminViewDAO {
 
         // First we create our stamp image manually from GD
         imagettftext($im, 80, 0, 260, 85, $color, $font, $text);
-        imagettftext($im, 24, 0, 50,  970, $color, $font, $text2);
+        imagettftext($im, 30, 0, 50,  960, $color, $font, $text2);
         imagepng($im, $path);
         imagedestroy($im);
         }

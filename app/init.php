@@ -53,20 +53,28 @@ if ($udao->isVotingOver() == true && is_null($request)) {
     } else if (!$didVote && $userRequest == 'poll') {
         if (isset($_POST["lectures"], $_POST["posters"])) {
             $insert = array();
+            $i = 0;
             foreach ($_POST["lectures"] as $lecture_id => $value) {
+                if ($i < 3) {
                 array_push($insert, array(
                    "user_id" => $userID,
                    "lecture_id" => $lecture_id,
                    "rate" => $value));
+                }
+                $i++;
             }
             $database->insert("LectureRatings", $insert);
 
             $insert = array();
+            $i = 0;
             foreach ($_POST["posters"] as $poster_id => $value) {
+                if ($i < 3) {
                 array_push($insert, array(
                    "user_id" => $userID,
                    "poster_id" => $poster_id,
                    "rate" => $value));
+                }
+                $i++;
             }
             $database->insert("PosterRatings", $insert);
         } 
